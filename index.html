@@ -1,207 +1,316 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Professional visual OpenGL/GLUT 2D scene designer by Safayet Ullah." />
-  <title>OpenGL Visual Designer — Safayet Ullah</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OpenGL Visual Designer Pro — Safayet Ullah</title>
+<style>
+:root{
+  --bg:#0b1220;--panel:#111a2b;--panel2:#162238;--line:#263653;--text:#e8eef9;--muted:#91a1bb;
+  --accent:#5b8cff;--accent2:#7c5cff;--danger:#ef5b6c;--success:#2bc48a;--shadow:0 14px 34px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{height:100%;display:grid;grid-template-rows:64px 48px 1fr 28px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#111a2b,#0e1727)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:900;box-shadow:0 8px 24px rgba(91,140,255,.35)}
+.brand h1{font-size:16px;margin:0}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.top-actions,.tabs,.toolbar,.row,.inline{display:flex;align-items:center;gap:8px}
+.btn{height:34px;padding:0 11px;border:1px solid var(--line);border-radius:8px;background:#152238;color:var(--text);display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:#1a2b47}.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0}.btn.danger{color:#ffdbe0;border-color:#5d2c39;background:#2a1820}.btn.active{outline:2px solid var(--accent);background:#1b2d4a}
+.icon-btn{width:34px;padding:0;justify-content:center}.tabsbar{display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid var(--line);background:#0f1829}.tab{height:34px;padding:0 16px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-weight:700}.tab.active{background:#1a2b47;color:white}
+.toolbar{overflow-x:auto;padding-right:8px}.tool-label{font-size:12px;color:var(--muted)}
+.main{min-height:0;display:grid;grid-template-columns:230px 1fr 310px}
+.sidebar{min-height:0;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:12px}.rightbar{border-left:1px solid var(--line);border-right:0}
+.section{margin-bottom:14px}.section-title{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;color:#b8c5d9;text-transform:uppercase;letter-spacing:.08em;margin:4px 2px 8px}
+.tool-grid,.object-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.tool-btn,.object-btn{min-height:48px;border:1px solid var(--line);border-radius:9px;background:#152238;color:var(--text);display:flex;align-items:center;justify-content:center;gap:7px;flex-direction:column;font-size:11px}.tool-btn:hover,.object-btn:hover{background:#1b2d4a}.tool-btn.active{outline:2px solid var(--accent)}.tool-btn .sym,.object-btn .sym{font-size:20px;line-height:1}
+.workspace{min-width:0;min-height:0;display:grid;grid-template-rows:auto 1fr;background:#08101d}.canvas-top{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);background:#0d1727}.zoom{width:120px}.canvas-shell{position:relative;min-height:0;overflow:auto;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 40%,#14223a 0,#0a1220 58%,#060b13 100%)}
+.stage-wrap{position:relative;box-shadow:var(--shadow);border:1px solid #4a5d7b;background:#fff;transform-origin:center center}
+canvas{display:block}.canvas2d{width:900px;height:600px}.canvas3d{width:900px;height:600px;background:#0b1220}
+.corner-badge{position:absolute;right:8px;bottom:8px;background:rgba(8,16,29,.82);color:#c6d1e3;border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:5px 8px;font-size:11px;pointer-events:none}
+.panel{border:1px solid var(--line);border-radius:10px;background:#121e32;overflow:hidden;margin-bottom:11px}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:9px 10px;background:#16243b;border-bottom:1px solid var(--line);font-weight:800;font-size:12px}.panel-body{padding:10px}
+.field{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:center;margin-bottom:8px}.field label{font-size:11px;color:var(--muted)}.field input,.field select,.field textarea{width:100%;height:32px;border:1px solid var(--line);border-radius:7px;background:#0f192a;color:var(--text);padding:0 8px}.field input[type=color]{padding:2px}.field textarea{height:70px;padding:8px;resize:vertical}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mini-field label{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.mini-field input{width:100%;height:31px;border:1px solid var(--line);border-radius:7px;background:#0f192a;color:var(--text);padding:0 7px}
+.layers{display:flex;flex-direction:column;gap:5px;max-height:240px;overflow:auto}.layer{display:grid;grid-template-columns:22px 1fr 22px 22px;align-items:center;gap:5px;padding:6px;border:1px solid var(--line);border-radius:7px;background:#101b2d;font-size:11px}.layer.selected{outline:2px solid var(--accent);background:#182a46}.layer button{border:0;background:transparent;color:var(--muted);padding:0}.layer .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.codebox{width:100%;height:240px;border:1px solid var(--line);border-radius:8px;background:#09111f;color:#cce3ff;padding:9px;font:11px/1.45 Consolas,monospace;resize:vertical}
+.statusbar{display:flex;align-items:center;justify-content:space-between;padding:0 10px;background:#0c1524;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}
+.hidden{display:none!important}.modal-back{position:fixed;inset:0;background:rgba(2,6,12,.72);display:grid;place-items:center;z-index:50}.modal{width:min(900px,94vw);max-height:88vh;overflow:auto;background:#111c2f;border:1px solid #334563;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.5)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}.modal-body{padding:16px}.modal textarea{width:100%;height:58vh;background:#08101c;color:#d4e7ff;border:1px solid var(--line);border-radius:9px;padding:12px;font:12px/1.5 Consolas,monospace}.about-card{display:grid;grid-template-columns:90px 1fr;gap:14px}.avatar{width:90px;height:90px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:34px;font-weight:900}
+.notice{font-size:11px;color:var(--muted);line-height:1.5}.empty{padding:16px;text-align:center;color:var(--muted);font-size:11px}.kbd{border:1px solid var(--line);background:#0c1626;border-bottom-width:2px;border-radius:5px;padding:1px 5px;font-size:10px}
+@media(max-width:1100px){.main{grid-template-columns:190px 1fr 280px}.canvas2d,.canvas3d{width:800px;height:533px}}
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="app-header">
-      <div class="brand">
-        <div class="brand-mark">SU</div>
-        <div class="brand-copy">
-          <h1>OpenGL Visual Designer</h1>
-          <p><strong>Developed by Safayet Ullah</strong> · CSE · Southeast University</p>
-        </div>
-      </div>
-      <div class="header-actions">
-        <button class="button subtle" id="newBtn" title="New project">＋ New</button>
-        <button class="button subtle" id="openBtn" title="Open project">▱ Open</button>
-        <button class="button subtle" id="saveBtn" title="Save project">▣ Save</button>
-        <span class="header-separator"></span>
-        <button class="button subtle icon-button" id="undoBtn" title="Undo">↶</button>
-        <button class="button subtle icon-button" id="redoBtn" title="Redo">↷</button>
-        <button class="button subtle" id="exportBtn" title="Export PNG">⇩ Export</button>
-        <button class="button primary" id="generateBtn" title="Generate complete C++ source">&lt;/&gt; Generate Code</button>
-        <button class="button subtle icon-button" id="aboutBtn" title="About">ⓘ</button>
-      </div>
-      <input id="projectFile" type="file" accept="application/json" hidden />
-    </header>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">SU</div><div><h1>OpenGL Visual Designer Pro</h1><small>Safayet Ullah · CSE · Southeast University</small></div></div>
+    <div class="top-actions">
+      <button class="btn" id="newBtn">＋ New</button><button class="btn" id="saveBtn">💾 Save</button><button class="btn" id="openBtn">📂 Open</button>
+      <button class="btn" id="pngBtn">🖼 PNG</button><button class="btn primary" id="codeBtn">〈/〉 Generate Code</button><button class="btn icon-btn" id="aboutBtn">ⓘ</button>
+      <input id="fileInput" type="file" accept="application/json" class="hidden" />
+    </div>
+  </header>
 
-    <main class="editor-grid">
-      <aside class="left-sidebar">
-        <section class="sidebar-section tools-section">
-          <div class="section-heading"><h2>Tools</h2></div>
-          <div class="tool-grid">
-            <button class="tool-button active" data-tool="select"><span class="tool-icon">↖</span><span>Select</span></button>
-            <button class="tool-button" data-tool="rectangle"><span class="tool-icon">▭</span><span>Rectangle</span></button>
-            <button class="tool-button" data-tool="ellipse"><span class="tool-icon">◯</span><span>Ellipse</span></button>
-            <button class="tool-button" data-tool="triangle"><span class="tool-icon">△</span><span>Triangle</span></button>
-            <button class="tool-button" data-tool="line"><span class="tool-icon">／</span><span>Line</span></button>
-            <button class="tool-button" data-tool="polygon"><span class="tool-icon">⬠</span><span>Polygon</span></button>
-            <button class="tool-button" data-tool="freehand"><span class="tool-icon">✎</span><span>Freehand</span></button>
-            <button class="tool-button" data-tool="text"><span class="tool-icon">T</span><span>Text</span></button>
-          </div>
-        </section>
-
-        <section class="sidebar-section asset-section">
-          <div class="section-heading">
-            <h2>Professional Assets</h2>
-            <span class="count-pill" id="assetCount">0</span>
-          </div>
-          <div class="asset-filters">
-            <input id="assetSearch" type="search" placeholder="Search assets..." />
-            <select id="assetCategory" aria-label="Asset category">
-              <option value="all">All</option>
-              <option value="scene">Scenes</option>
-              <option value="architecture">Architecture</option>
-              <option value="vehicle">Vehicles</option>
-              <option value="people">People</option>
-              <option value="technology">Technology</option>
-              <option value="nature">Nature</option>
-              <option value="street">Street</option>
-            </select>
-          </div>
-          <div id="assetGrid" class="asset-grid"></div>
-          <div id="assetEmpty" class="empty-assets hidden">No matching assets.</div>
-        </section>
-      </aside>
-
-      <section class="workspace-column">
-        <div class="canvas-toolbar">
-          <div class="project-info">
-            <input id="projectName" value="Untitled Design" aria-label="Project name" />
-            <span>1000 × 650</span>
-          </div>
-          <div class="canvas-actions">
-            <button class="small-button" id="fitBtn">Fit</button>
-            <button class="small-button" id="zoomOutBtn">−</button>
-            <span class="zoom-value" id="zoomLabel">100%</span>
-            <button class="small-button" id="zoomInBtn">＋</button>
-            <button class="small-button toggle active" id="gridBtn">Grid</button>
-            <button class="small-button toggle active" id="snapBtn">Snap</button>
-            <button class="small-button" id="centerBtn">Center</button>
-            <button class="small-button" id="playBtn">▶ Preview</button>
-          </div>
-        </div>
-
-        <div class="canvas-viewport" id="viewport">
-          <div class="canvas-holder" id="canvasHolder">
-            <canvas id="designCanvas" aria-label="Design canvas"></canvas>
-          </div>
-        </div>
-
-        <div class="canvas-status">
-          <span id="statusText">Choose a drawing tool or click a professional asset to begin.</span>
-          <span id="mouseCoordinates">Mouse: 0, 0</span>
-        </div>
-      </section>
-
-      <aside class="right-sidebar">
-        <section class="right-panel properties-panel">
-          <div class="right-panel-heading"><h2>Properties</h2><span id="selectionType">Canvas</span></div>
-          <div id="canvasProperties" class="panel-content">
-            <label class="form-field"><span>Canvas background</span><input id="canvasColor" type="color" value="#f6f9fd" /></label>
-            <label class="form-field"><span>Grid size</span>
-              <select id="gridSize">
-                <option value="10">10</option><option value="20" selected>20</option><option value="25">25</option><option value="50">50</option>
-              </select>
-            </label>
-            <div class="selection-message">Select an object to edit its transform, colours and animation.</div>
-          </div>
-
-          <div id="objectProperties" class="panel-content hidden">
-            <label class="form-field"><span>Name</span><input id="propName" type="text" /></label>
-            <div class="field-grid">
-              <label><span>X</span><input id="propX" type="number" /></label>
-              <label><span>Y</span><input id="propY" type="number" /></label>
-              <label><span>Width</span><input id="propW" type="number" min="1" /></label>
-              <label><span>Height</span><input id="propH" type="number" min="1" /></label>
-            </div>
-            <label class="form-field"><span>Rotation</span><div class="range-line"><input id="propRotation" type="range" min="-180" max="180" step="1" /><output id="rotationOutput">0°</output></div></label>
-            <div class="field-grid colors-grid">
-              <label><span>Theme / Fill</span><input id="propFill" type="color" /></label>
-              <label><span>Border</span><input id="propStroke" type="color" /></label>
-              <label><span>Border width</span><input id="propStrokeWidth" type="number" min="0" max="30" step="0.5" /></label>
-              <label><span>Opacity</span><input id="propOpacity" type="number" min="0.1" max="1" step="0.05" /></label>
-            </div>
-            <label class="checkbox-field"><input id="propShadow" type="checkbox" /><span>Professional shadow</span></label>
-            <details class="animation-details">
-              <summary>Animation</summary>
-              <div class="animation-body">
-                <label class="form-field"><span>Preset</span>
-                  <select id="propAnimation">
-                    <option value="none">None</option><option value="slide">Move horizontally</option><option value="float">Float</option><option value="bounce">Bounce</option><option value="rotate">Rotate</option><option value="pulse">Pulse</option><option value="blink">Blink</option>
-                  </select>
-                </label>
-                <div class="field-grid">
-                  <label><span>Duration</span><input id="propDuration" type="number" min="0.2" max="60" step="0.1" /></label>
-                  <label><span>Amount</span><input id="propAmount" type="number" min="1" max="1200" /></label>
-                </div>
-                <label class="checkbox-field"><input id="propLoop" type="checkbox" /><span>Loop</span></label>
-              </div>
-            </details>
-            <div class="property-actions">
-              <button class="small-button" id="duplicateBtn">Duplicate</button>
-              <button class="small-button" id="ungroupBtn">Ungroup</button>
-              <button class="small-button danger" id="deleteBtn">Delete</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="right-panel layers-panel">
-          <div class="right-panel-heading"><h2>Layers</h2><span id="layerCount">0</span></div>
-          <div id="layersList" class="layers-list"></div>
-        </section>
-
-        <section class="right-panel code-panel">
-          <div class="right-panel-heading">
-            <h2>Live Code Preview</h2>
-            <div class="code-actions"><button id="copyPreviewBtn">Copy</button><button id="expandCodeBtn">Expand</button></div>
-          </div>
-          <pre id="codePreview"></pre>
-        </section>
-      </aside>
-    </main>
-
-    <footer class="footer-bar">
-      <span id="footerState">Ready</span>
-      <span id="footerMeta">Objects: 0 · Zoom: 100% · Grid: 20</span>
-      <span>© 2026 Safayet Ullah · All rights reserved</span>
-    </footer>
+  <div class="tabsbar">
+    <div class="tabs"><button class="tab active" data-mode="2d">2D Designer</button><button class="tab" data-mode="3d">3D Studio</button></div>
+    <div class="toolbar">
+      <span class="tool-label">History</span><button class="btn icon-btn" id="undoBtn" title="Undo">↶</button><button class="btn icon-btn" id="redoBtn" title="Redo">↷</button>
+      <span class="tool-label">Zoom</span><input id="zoomRange" class="zoom" type="range" min="40" max="160" value="90" /><span id="zoomText" class="tool-label">90%</span>
+      <button class="btn" id="gridBtn"># Grid</button><button class="btn" id="snapBtn">⌁ Snap</button>
+    </div>
   </div>
 
-  <div id="codeModal" class="modal-backdrop hidden">
-    <section class="modal code-modal">
-      <header class="modal-header"><div><h2>Generated OpenGL / GLUT C++</h2><p>Complete scene source with compile-safe floating-point values.</p></div><button id="closeCodeModal">×</button></header>
-      <div class="modal-toolbar"><button id="copyFullCode">Copy Code</button><button id="downloadCpp">Download .cpp</button></div>
-      <textarea id="fullCode" spellcheck="false"></textarea>
-    </section>
-  </div>
+  <main class="main">
+    <aside class="sidebar">
+      <div id="tools2d">
+        <div class="section"><div class="section-title">Drawing tools</div><div class="tool-grid">
+          <button class="tool-btn active" data-tool="select"><span class="sym">↖</span>Select</button><button class="tool-btn" data-tool="rectangle"><span class="sym">▭</span>Rectangle</button>
+          <button class="tool-btn" data-tool="ellipse"><span class="sym">◯</span>Ellipse</button><button class="tool-btn" data-tool="triangle"><span class="sym">△</span>Triangle</button>
+          <button class="tool-btn" data-tool="line"><span class="sym">／</span>Line</button><button class="tool-btn" data-tool="polygon"><span class="sym">⬠</span>Polygon</button>
+          <button class="tool-btn" data-tool="pen"><span class="sym">✎</span>Freehand</button><button class="tool-btn" data-tool="text"><span class="sym">T</span>Text</button>
+        </div></div>
+        <div class="section"><div class="section-title">Object library</div><div class="object-grid">
+          <button class="object-btn" data-template="house"><span class="sym">⌂</span>House</button><button class="object-btn" data-template="tree"><span class="sym">♣</span>Tree</button>
+          <button class="object-btn" data-template="human"><span class="sym">♟</span>Human</button><button class="object-btn" data-template="robot"><span class="sym">🤖</span>Robot</button>
+          <button class="object-btn" data-template="car"><span class="sym">▰</span>Car</button><button class="object-btn" data-template="cloud"><span class="sym">☁</span>Cloud</button>
+          <button class="object-btn" data-template="sun"><span class="sym">☀</span>Sun</button><button class="object-btn" data-template="road"><span class="sym">═</span>Road</button>
+        </div></div>
+        <div class="section"><div class="section-title">Polygon</div><button class="btn" type="button" style="width:100%" id="finishPolygonBtn">Finish Polygon</button><div class="tiny" style="margin-top:7px">Finish: button, Enter, right-click, double-click, or click the first point. Escape cancels.</div></div>
+      </div>
 
-  <div id="aboutModal" class="modal-backdrop hidden">
-    <section class="modal about-modal">
-      <header class="modal-header"><div><h2>OpenGL Visual Designer</h2><p>Professional visual graphics and code generation.</p></div><button id="closeAboutModal">×</button></header>
-      <div class="about-content">
-        <div class="about-mark">SU</div>
-        <h3>Developed by Safayet Ullah</h3>
-        <p>Department of Computer Science and Engineering</p>
-        <p>Southeast University</p>
-        <hr />
-        <p class="about-note">Every built-in design is created from editable graphic primitives and generates real OpenGL/GLUT code.</p>
-        <strong>Version 4.0 · © 2026 Safayet Ullah</strong>
+      <div id="tools3d" class="hidden">
+        <div class="section"><div class="section-title">3D primitives</div><div class="object-grid">
+          <button class="object-btn" data-primitive="cube"><span class="sym">◫</span>Cube</button><button class="object-btn" data-primitive="sphere"><span class="sym">●</span>Sphere</button>
+          <button class="object-btn" data-primitive="cylinder"><span class="sym">▥</span>Cylinder</button><button class="object-btn" data-primitive="cone"><span class="sym">▲</span>Cone</button>
+          <button class="object-btn" data-primitive="pyramid"><span class="sym">△</span>Pyramid</button><button class="object-btn" data-primitive="plane"><span class="sym">▱</span>Plane</button>
+        </div></div>
+        <div class="section"><div class="section-title">Camera</div><div class="notice">Drag on the 3D canvas to orbit. Use the mouse wheel to zoom. Select objects from Layers.</div></div>
+      </div>
+
+      <div class="section"><div class="section-title">Quick help</div><div class="notice" id="quickHelp">Select an object to move, resize or rotate it. Drag a corner handle to resize and the round handle to rotate.</div></div>
+    </aside>
+
+    <section class="workspace">
+      <div class="canvas-top"><div><strong id="workspaceTitle">2D Canvas</strong> <span class="tool-label" id="canvasInfo">900 × 600</span></div><div class="row"><span class="tool-label">Canvas</span><input id="canvasBg" type="color" value="#ffffff" style="width:34px;height:30px;border:1px solid var(--line);border-radius:7px;background:#152238;padding:2px"><button class="btn" id="centerBtn">◎ Center View</button><button class="btn" id="duplicateBtn">⧉ Duplicate</button><button class="btn danger" id="deleteBtn">⌫ Delete</button></div></div>
+      <div class="canvas-shell" id="canvasShell">
+        <div class="stage-wrap" id="stage2d"><canvas id="canvas2d" class="canvas2d" width="900" height="600"></canvas><div class="corner-badge">Mouse: <span id="mousePos">0, 0</span></div></div>
+        <div class="stage-wrap hidden" id="stage3d"><canvas id="canvas3d" class="canvas3d" width="900" height="600"></canvas><div class="corner-badge">Orbit: drag · Zoom: wheel</div></div>
       </div>
     </section>
-  </div>
 
-  <script src="js/templates.js"></script>
-  <script src="js/app.js"></script>
+    <aside class="sidebar rightbar">
+      <div class="panel"><div class="panel-head"><span>Properties</span><span id="selectionName" class="tool-label">No selection</span></div><div class="panel-body" id="properties2d">
+        <div id="noSelection" class="empty">Select an object to edit it.</div>
+        <div id="objectProps" class="hidden">
+          <div class="field"><label>Name</label><input id="propName" /></div>
+          <div class="field-grid"><div class="mini-field"><label>X</label><input id="propX" type="number" /></div><div class="mini-field"><label>Y</label><input id="propY" type="number" /></div></div>
+          <div class="field-grid"><div class="mini-field"><label>Width</label><input id="propW" type="number" min="1" /></div><div class="mini-field"><label>Height</label><input id="propH" type="number" min="1" /></div></div>
+          <div class="field-grid" style="margin-top:8px"><div class="mini-field"><label>Rotation</label><input id="propRot" type="number" /></div><div class="mini-field"><label>Opacity</label><input id="propOpacity" type="number" min="0" max="1" step="0.05" /></div></div>
+          <div class="field" style="margin-top:8px"><label>Fill</label><input id="propFill" type="color" /></div><div class="field"><label>Border</label><input id="propStroke" type="color" /></div>
+          <div class="field"><label>Border width</label><input id="propStrokeW" type="number" min="0" max="30" /></div>
+          <div class="row"><button class="btn" id="frontBtn">Bring Front</button><button class="btn" id="backBtn">Send Back</button><button class="btn" id="ungroupBtn">Ungroup</button></div>
+        </div>
+      </div>
+      <div class="panel-body hidden" id="properties3d">
+        <div id="noSelection3d" class="empty">Select a 3D object from Layers.</div>
+        <div id="objectProps3d" class="hidden">
+          <div class="field"><label>Name</label><input id="p3Name" /></div>
+          <div class="section-title">Position</div><div class="field-grid"><div class="mini-field"><label>X</label><input id="p3x" type="number" step="0.1" /></div><div class="mini-field"><label>Y</label><input id="p3y" type="number" step="0.1" /></div><div class="mini-field"><label>Z</label><input id="p3z" type="number" step="0.1" /></div></div>
+          <div class="section-title" style="margin-top:10px">Rotation</div><div class="field-grid"><div class="mini-field"><label>X</label><input id="p3rx" type="number" /></div><div class="mini-field"><label>Y</label><input id="p3ry" type="number" /></div><div class="mini-field"><label>Z</label><input id="p3rz" type="number" /></div></div>
+          <div class="section-title" style="margin-top:10px">Scale</div><div class="field-grid"><div class="mini-field"><label>X</label><input id="p3sx" type="number" step="0.1" /></div><div class="mini-field"><label>Y</label><input id="p3sy" type="number" step="0.1" /></div><div class="mini-field"><label>Z</label><input id="p3sz" type="number" step="0.1" /></div></div>
+          <div class="field" style="margin-top:9px"><label>Color</label><input id="p3Color" type="color" /></div>
+        </div>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><span>Layers</span><span class="row"><button class="btn icon-btn" id="layerUp">↑</button><button class="btn icon-btn" id="layerDown">↓</button></span></div><div class="panel-body"><div class="layers" id="layers"></div></div></div>
+      <div class="panel"><div class="panel-head"><span>Live Code Preview</span><button class="btn" id="copyCodeBtn">Copy</button></div><div class="panel-body"><textarea id="liveCode" class="codebox" spellcheck="false"></textarea></div></div>
+    </aside>
+  </main>
+
+  <footer class="statusbar"><span id="status">Ready</span><span>© 2026 Safayet Ullah · Department of Computer Science and Engineering · Southeast University</span></footer>
+</div>
+
+<div class="modal-back hidden" id="codeModal"><div class="modal"><div class="modal-head"><strong>Generated OpenGL Code</strong><div class="row"><button class="btn" id="copyModalCode">Copy</button><button class="btn" id="downloadCpp">Download .cpp</button><button class="btn danger" data-close="codeModal">Close</button></div></div><div class="modal-body"><textarea id="generatedCode" spellcheck="false"></textarea></div></div></div>
+<div class="modal-back hidden" id="aboutModal"><div class="modal" style="width:min(650px,94vw)"><div class="modal-head"><strong>About Developer</strong><button class="btn danger" data-close="aboutModal">Close</button></div><div class="modal-body"><div class="about-card"><div class="avatar">SU</div><div><h2 style="margin:0 0 8px">Safayet Ullah</h2><p style="margin:0 0 5px">Department of Computer Science and Engineering</p><p style="margin:0 0 12px">Southeast University</p><p class="notice">OpenGL Visual Designer Pro is a browser-based visual editor for creating 2D GLUT drawings and basic 3D GLUT scenes without manually calculating every coordinate.</p><p class="notice">Version 1.0.0 · © 2026 Safayet Ullah. All rights reserved.</p></div></div></div></div></div>
+
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const deep = value => JSON.parse(JSON.stringify(value));
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const uid = ()=>'o'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const rad = d=>d*Math.PI/180;
+const hexToRgb01 = hex => { const n=parseInt(hex.slice(1),16); return [((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255]; };
+const rgba = (hex,a=1)=>{const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;};
+
+const canvas=$('canvas2d'), ctx=canvas.getContext('2d');
+const W=900,H=600;
+let mode='2d', tool='select', objects=[], selectedId=null, showGrid=true, snap=true, zoom=.9, canvasBg='#ffffff';
+let action=null,start=null,preview=null,polyDraft=[],history=[],future=[],clipboard=null;
+let scene3d=[],selected3d=null,camera={yaw:-35,pitch:22,dist:11,target:[0,0,0]},orbit=null;
+
+function selected(){return objects.find(o=>o.id===selectedId)||null}
+function selected3(){return scene3d.find(o=>o.id===selected3d)||null}
+function pushHistory(){history.push(deep({objects,scene3d}));if(history.length>60)history.shift();future=[];}
+function restore(s){objects=deep(s.objects||[]);scene3d=deep(s.scene3d||[]);selectedId=null;selected3d=null;refreshAll();}
+function undo(){if(!history.length)return;future.push(deep({objects,scene3d}));restore(history.pop());}
+function redo(){if(!future.length)return;history.push(deep({objects,scene3d}));restore(future.pop());}
+function saveAuto(){localStorage.setItem('oglDesignerSafayet',JSON.stringify({objects,scene3d,mode,canvasBg}));}
+function loadAuto(){try{const s=JSON.parse(localStorage.getItem('oglDesignerSafayet'));if(s){objects=s.objects||[];scene3d=s.scene3d||[];mode=s.mode||'2d';canvasBg=s.canvasBg||'#ffffff';}}catch(e){}}
+
+function toCanvas(e){const r=canvas.getBoundingClientRect();let x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;if(snap){x=Math.round(x/10)*10;y=Math.round(y/10)*10;}return{x:clamp(x,0,W),y:clamp(y,0,H)}}
+function localPoint(o,p){const c=Math.cos(rad(-o.rotation)),s=Math.sin(rad(-o.rotation)),dx=p.x-o.x,dy=p.y-o.y;return{x:dx*c-dy*s,y:dx*s+dy*c};}
+function worldPoint(o,p){const c=Math.cos(rad(o.rotation)),s=Math.sin(rad(o.rotation));return{x:o.x+p.x*c-p.y*s,y:o.y+p.x*s+p.y*c};}
+function makeObj(type,x,y,w,h,extra={}){return{ id:uid(),type,name:extra.name||type[0].toUpperCase()+type.slice(1),x,y,w:Math.max(8,Math.abs(w)),h:Math.max(8,Math.abs(h)),rotation:0,fill:extra.fill||'#d97706',stroke:extra.stroke||'#1f2937',strokeWidth:extra.strokeWidth??2,opacity:1,visible:true,locked:false,points:extra.points||null,text:extra.text||'Text',children:extra.children||null};}
+function normalizePoints(points){const xs=points.map(p=>p.x),ys=points.map(p=>p.y),l=Math.min(...xs),r=Math.max(...xs),t=Math.min(...ys),b=Math.max(...ys),w=Math.max(1,r-l),h=Math.max(1,b-t);return{x:(l+r)/2,y:(t+b)/2,w,h,points:points.map(p=>({x:(p.x-(l+r)/2)/w,y:(p.y-(t+b)/2)/h}))};}
+
+function drawGrid(){if(!showGrid)return;ctx.save();ctx.strokeStyle='rgba(30,55,90,.12)';ctx.lineWidth=1;for(let x=0;x<=W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<=H;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.strokeStyle='rgba(30,55,90,.22)';for(let x=0;x<=W;x+=100){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<=H;y+=100){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.restore();}
+function pathShape(o){ctx.beginPath();if(o.type==='rectangle'){ctx.rect(-o.w/2,-o.h/2,o.w,o.h);}else if(o.type==='ellipse'){ctx.ellipse(0,0,o.w/2,o.h/2,0,0,Math.PI*2);}else if(o.type==='triangle'){ctx.moveTo(0,-o.h/2);ctx.lineTo(-o.w/2,o.h/2);ctx.lineTo(o.w/2,o.h/2);ctx.closePath();}else if(o.type==='polygon'){const pts=o.points||[];if(pts.length){ctx.moveTo(pts[0].x*o.w,pts[0].y*o.h);pts.slice(1).forEach(p=>ctx.lineTo(p.x*o.w,p.y*o.h));ctx.closePath();}}}
+function drawChild(c,w,h){ctx.save();ctx.translate(c.x*w,c.y*h);if(c.rotation)ctx.rotate(rad(c.rotation));ctx.globalAlpha*=c.opacity??1;ctx.fillStyle=c.fill;ctx.strokeStyle=c.stroke||c.fill;ctx.lineWidth=(c.strokeWidth??1)<1?(c.strokeWidth??1)*Math.max(w,h):(c.strokeWidth??1);const cw=c.w*w,ch=c.h*h;ctx.beginPath();if(c.type==='rect')ctx.rect(-cw/2,-ch/2,cw,ch);if(c.type==='ellipse')ctx.ellipse(0,0,cw/2,ch/2,0,0,Math.PI*2);if(c.type==='triangle'){ctx.moveTo(0,-ch/2);ctx.lineTo(-cw/2,ch/2);ctx.lineTo(cw/2,ch/2);ctx.closePath();}if(c.type==='line'){ctx.moveTo(-cw/2,-ch/2);ctx.lineTo(cw/2,ch/2);}if(c.type==='polygon'){const pts=c.points||[];if(pts.length){ctx.moveTo(pts[0][0]*w,pts[0][1]*h);pts.slice(1).forEach(p=>ctx.lineTo(p[0]*w,p[1]*h));ctx.closePath();}}if(c.type==='line')ctx.stroke();else{ctx.fill();if((c.strokeWidth??0)>0)ctx.stroke();}ctx.restore();}
+function drawObject(o,selected=false){if(!o.visible)return;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(rad(o.rotation));ctx.globalAlpha=o.opacity;ctx.fillStyle=o.fill;ctx.strokeStyle=o.stroke;ctx.lineWidth=o.strokeWidth;
+  if(o.type==='line'||o.type==='pen'){const pts=o.points||[];ctx.beginPath();if(pts.length){ctx.moveTo(pts[0].x*o.w,pts[0].y*o.h);pts.slice(1).forEach(p=>ctx.lineTo(p.x*o.w,p.y*o.h));}ctx.stroke();}
+  else if(o.type==='text'){ctx.fillStyle=o.fill;ctx.font=`700 ${Math.max(12,o.h)}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.text,0,0);}
+  else if(o.type==='group'){(o.children||[]).forEach(c=>drawChild(c,o.w,o.h));}
+  else {pathShape(o);ctx.fill();if(o.strokeWidth>0)ctx.stroke();}
+  ctx.restore();if(selected)drawSelection(o);
+}
+function drawSelection(o){const corners=[[-o.w/2,-o.h/2],[o.w/2,-o.h/2],[o.w/2,o.h/2],[-o.w/2,o.h/2]].map(([x,y])=>worldPoint(o,{x,y}));ctx.save();ctx.strokeStyle='#2f78ff';ctx.lineWidth=1.5;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(corners[0].x,corners[0].y);corners.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.stroke();ctx.setLineDash([]);corners.forEach(p=>{ctx.fillStyle='#fff';ctx.strokeStyle='#2f78ff';ctx.lineWidth=2;ctx.fillRect(p.x-5,p.y-5,10,10);ctx.strokeRect(p.x-5,p.y-5,10,10);});const top=worldPoint(o,{x:0,y:-o.h/2}),rotp=worldPoint(o,{x:0,y:-o.h/2-32});ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(rotp.x,rotp.y);ctx.stroke();ctx.beginPath();ctx.arc(rotp.x,rotp.y,6,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.stroke();ctx.restore();}
+function redraw2d(exporting=false){ctx.clearRect(0,0,W,H);ctx.fillStyle=canvasBg;ctx.fillRect(0,0,W,H);drawGrid();objects.forEach(o=>drawObject(o,!exporting&&o.id===selectedId));if(polyDraft.length&&!exporting){ctx.save();ctx.strokeStyle='#5b8cff';ctx.fillStyle='#5b8cff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(polyDraft[0].x,polyDraft[0].y);polyDraft.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));if(preview)ctx.lineTo(preview.x,preview.y);ctx.stroke();polyDraft.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();});ctx.restore();}if(action?.kind==='draw'&&preview&&!exporting){const sx=start.x,sy=start.y,dx=preview.x-sx,dy=preview.y-sy;const o=makeObj(tool,(sx+preview.x)/2,(sy+preview.y)/2,dx,dy,{fill:'#5b8cff'});if(tool==='line')o.points=[{x:-.5*Math.sign(dx||1),y:-.5*Math.sign(dy||1)},{x:.5*Math.sign(dx||1),y:.5*Math.sign(dy||1)}];drawObject(o,false);}}
+
+function hit(o,p){if(!o.visible||o.locked)return false;const l=localPoint(o,p);if(o.type==='ellipse')return (l.x*l.x)/(o.w*o.w/4)+(l.y*l.y)/(o.h*o.h/4)<=1;if(o.type==='triangle'||o.type==='polygon'||o.type==='group'||o.type==='rectangle'||o.type==='text')return Math.abs(l.x)<=o.w/2&&Math.abs(l.y)<=o.h/2;if(o.type==='line'||o.type==='pen')return Math.abs(l.x)<=o.w/2+8&&Math.abs(l.y)<=o.h/2+8;return false;}
+function handleAt(o,p){const local=localPoint(o,p),handles=[{n:'nw',x:-o.w/2,y:-o.h/2},{n:'ne',x:o.w/2,y:-o.h/2},{n:'se',x:o.w/2,y:o.h/2},{n:'sw',x:-o.w/2,y:o.h/2}];for(const h of handles)if(Math.hypot(local.x-h.x,local.y-h.y)<10)return h.n;if(Math.hypot(local.x,local.y+o.h/2+32)<10)return'rotate';return null;}
+
+canvas.addEventListener('mousedown',e=>{const p=toCanvas(e);if(tool==='polygon'){if(e.button===2){e.preventDefault();finishPolygon();return;}if(e.button!==0)return;if(polyDraft.length>=3&&Math.hypot(p.x-polyDraft[0].x,p.y-polyDraft[0].y)<12){finishPolygon();return;}polyDraft.push(p);preview=p;redraw2d();return;}if(e.button!==0)return;if(tool==='text'){pushHistory();const text=prompt('Enter text:','OpenGL');if(text){const o=makeObj('text',p.x,p.y,180,32,{fill:'#1f2937',text});objects.push(o);selectedId=o.id;changed();}return;}if(tool==='select'){const o=selected();if(o){const h=handleAt(o,p);if(h){pushHistory();action={kind:h==='rotate'?'rotate':'resize',handle:h,start:deep(o),mouse:p};return;}}for(let i=objects.length-1;i>=0;i--){if(hit(objects[i],p)){selectedId=objects[i].id;pushHistory();action={kind:'move',mouse:p,start:deep(objects[i])};refreshAll();return;}}selectedId=null;refreshAll();return;}pushHistory();action={kind:tool==='pen'?'pen':'draw'};start=p;preview=p;if(tool==='pen')action.points=[p];});
+canvas.addEventListener('mousemove',e=>{const p=toCanvas(e);$('mousePos').textContent=`${Math.round(p.x)}, ${Math.round(H-p.y)}`;preview=p;const o=selected();if(action&&o){if(action.kind==='move'){o.x=action.start.x+(p.x-action.mouse.x);o.y=action.start.y+(p.y-action.mouse.y);}else if(action.kind==='resize'){const l=localPoint(o,p);o.w=Math.max(10,Math.abs(l.x)*2);o.h=Math.max(10,Math.abs(l.y)*2);}else if(action.kind==='rotate'){o.rotation=Math.round(Math.atan2(p.y-o.y,p.x-o.x)*180/Math.PI+90);}updateProps();changed(false);}if(action?.kind==='pen'){action.points.push(p);}redraw2d();});
+canvas.addEventListener('mouseup',e=>{const p=toCanvas(e);if(action?.kind==='draw'){const dx=p.x-start.x,dy=p.y-start.y;if(Math.abs(dx)>4||Math.abs(dy)>4){const o=makeObj(tool,(p.x+start.x)/2,(p.y+start.y)/2,dx,dy,{fill:'#d97706'});if(tool==='line')o.points=[{x:-.5*Math.sign(dx||1),y:-.5*Math.sign(dy||1)},{x:.5*Math.sign(dx||1),y:.5*Math.sign(dy||1)}];objects.push(o);selectedId=o.id;}}else if(action?.kind==='pen'){if(action.points.length>2){const n=normalizePoints(action.points);const o=makeObj('pen',n.x,n.y,n.w,n.h,{fill:'transparent',stroke:'#111827',strokeWidth:3,points:n.points});objects.push(o);selectedId=o.id;}}action=null;start=null;preview=null;changed();});
+canvas.addEventListener('dblclick',e=>{if(tool==='polygon'){e.preventDefault();finishPolygon();}});
+canvas.addEventListener('contextmenu',e=>{if(tool==='polygon')e.preventDefault();});
+function setActiveTool(nextTool){
+  tool=nextTool;
+  document.querySelectorAll('.tool-btn').forEach(x=>x.classList.toggle('active',x.dataset.tool===tool));
+  $('quickHelp').textContent=tool==='select'
+    ?'Select, move, resize and rotate objects.'
+    :tool==='polygon'
+      ?'Click points. Finish with the button, Enter, right-click, double-click, or click the first point.'
+      :'Drag on the canvas to create the selected object.';
+}
+function cancelPolygon(){polyDraft=[];preview=null;action=null;redraw2d();$('status').textContent='Polygon cancelled';}
+function finishPolygon(showWarning=true){
+  if(polyDraft.length<3){
+    if(showWarning)alert('Click at least 3 points to finish the polygon.');
+    return false;
+  }
+  const clean=[];
+  for(const p of polyDraft){
+    if(!clean.length||Math.hypot(p.x-clean[clean.length-1].x,p.y-clean[clean.length-1].y)>2)clean.push(p);
+  }
+  if(clean.length>3&&Math.hypot(clean[0].x-clean[clean.length-1].x,clean[0].y-clean[clean.length-1].y)<8)clean.pop();
+  if(clean.length<3){
+    if(showWarning)alert('The polygon needs 3 different points.');
+    return false;
+  }
+  pushHistory();
+  const n=normalizePoints(clean);
+  const o=makeObj('polygon',n.x,n.y,n.w,n.h,{fill:'#d97706',points:n.points});
+  objects.push(o);
+  selectedId=o.id;
+  polyDraft=[];
+  preview=null;
+  action=null;
+  setActiveTool('select');
+  changed();
+  $('status').textContent='Polygon finished. Select tool is active.';
+  return true;
+}
+
+function template(name){const common={stroke:'#263238',strokeWidth:.015};let children=[],w=230,h=180;if(name==='house')children=[{type:'rect',x:0,y:.12,w:.72,h:.58,fill:'#e6ad55',...common},{type:'triangle',x:0,y:-.31,w:.88,h:.45,fill:'#9c3f2c',...common},{type:'rect',x:-.18,y:.25,w:.18,h:.32,fill:'#6b3419',...common},{type:'rect',x:.17,y:.08,w:.18,h:.18,fill:'#7dd3fc',...common}];
+if(name==='tree'){w=150;h=220;children=[{type:'rect',x:0,y:.25,w:.16,h:.5,fill:'#7c3f16',...common},{type:'ellipse',x:0,y:-.18,w:.72,h:.55,fill:'#2e9b4f',...common},{type:'ellipse',x:-.22,y:-.02,w:.5,h:.45,fill:'#37ad59',...common},{type:'ellipse',x:.22,y:-.02,w:.5,h:.45,fill:'#37ad59',...common}];}
+if(name==='human'){w=110;h=230;children=[{type:'ellipse',x:0,y:-.34,w:.27,h:.18,fill:'#f1b98a',...common},{type:'rect',x:0,y:-.02,w:.28,h:.38,fill:'#4f7cff',...common},{type:'line',x:-.2,y:0,w:.35,h:.22,fill:'#111827',stroke:'#111827',strokeWidth:.035},{type:'line',x:.2,y:0,w:-.35,h:.22,fill:'#111827',stroke:'#111827',strokeWidth:.035},{type:'line',x:-.08,y:.32,w:-.18,h:.32,fill:'#111827',stroke:'#111827',strokeWidth:.035},{type:'line',x:.08,y:.32,w:.18,h:.32,fill:'#111827',stroke:'#111827',strokeWidth:.035}];}
+if(name==='robot'){w=150;h=220;children=[{type:'rect',x:0,y:-.28,w:.55,h:.24,fill:'#a7b5c8',...common},{type:'rect',x:0,y:.02,w:.62,h:.42,fill:'#8293aa',...common},{type:'ellipse',x:-.13,y:-.29,w:.08,h:.06,fill:'#3ddc97'},{type:'ellipse',x:.13,y:-.29,w:.08,h:.06,fill:'#3ddc97'},{type:'rect',x:-.38,y:.02,w:.12,h:.36,fill:'#68798f',...common},{type:'rect',x:.38,y:.02,w:.12,h:.36,fill:'#68798f',...common},{type:'rect',x:-.17,y:.36,w:.16,h:.24,fill:'#68798f',...common},{type:'rect',x:.17,y:.36,w:.16,h:.24,fill:'#68798f',...common}];}
+if(name==='car'){w=260;h=120;children=[{type:'rect',x:0,y:.12,w:.85,h:.34,fill:'#e44747',...common},{type:'polygon',x:0,y:-.12,w:.52,h:.26,fill:'#e44747',points:[[-.45,.5],[-.25,-.5],[.28,-.5],[.48,.5]],...common},{type:'ellipse',x:-.28,y:.34,w:.18,h:.22,fill:'#1f2937'},{type:'ellipse',x:.28,y:.34,w:.18,h:.22,fill:'#1f2937'}];}
+if(name==='cloud'){w=220;h=110;children=[{type:'ellipse',x:-.22,y:.05,w:.38,h:.55,fill:'#ffffff',stroke:'#cbd5e1',strokeWidth:.01},{type:'ellipse',x:0,y:-.1,w:.45,h:.7,fill:'#ffffff',stroke:'#cbd5e1',strokeWidth:.01},{type:'ellipse',x:.25,y:.06,w:.4,h:.52,fill:'#ffffff',stroke:'#cbd5e1',strokeWidth:.01}];}
+if(name==='sun'){w=120;h=120;children=[{type:'ellipse',x:0,y:0,w:.65,h:.65,fill:'#fbbf24',stroke:'#f59e0b',strokeWidth:.02}];}
+if(name==='road'){w=520;h=90;children=[{type:'rect',x:0,y:0,w:1,h:.75,fill:'#374151'},{type:'line',x:0,y:0,w:.85,h:0,stroke:'#ffffff',strokeWidth:.025}];}
+pushHistory();const o=makeObj('group',W/2,H/2,w,h,{name:name[0].toUpperCase()+name.slice(1),children});objects.push(o);selectedId=o.id;changed();}
+
+function changed(full=true){redraw2d();renderLayers();updateProps();updateLiveCode();saveAuto();if(mode==='3d')draw3d();if(full)$('status').textContent='Saved automatically';}
+function refreshAll(){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.mode===mode));$('tools2d').classList.toggle('hidden',mode!=='2d');$('tools3d').classList.toggle('hidden',mode!=='3d');$('stage2d').classList.toggle('hidden',mode!=='2d');$('stage3d').classList.toggle('hidden',mode!=='3d');$('properties2d').classList.toggle('hidden',mode!=='2d');$('properties3d').classList.toggle('hidden',mode!=='3d');$('workspaceTitle').textContent=mode==='2d'?'2D Canvas':'3D Scene';redraw2d();renderLayers();updateProps();update3Props();updateLiveCode();setTimeout(draw3d,20);}
+
+function updateProps(){const o=selected();$('noSelection').classList.toggle('hidden',!!o);$('objectProps').classList.toggle('hidden',!o);$('selectionName').textContent=o?o.name:(mode==='3d'?(selected3()?.name||'No selection'):'No selection');if(!o)return;$('propName').value=o.name;$('propX').value=Math.round(o.x);$('propY').value=Math.round(H-o.y);$('propW').value=Math.round(o.w);$('propH').value=Math.round(o.h);$('propRot').value=Math.round(o.rotation);$('propOpacity').value=o.opacity;$('propFill').value=o.fill==='transparent'?'#000000':o.fill;$('propStroke').value=o.stroke;$('propStrokeW').value=o.strokeWidth;$('ungroupBtn').disabled=o.type!=='group';}
+['propName','propX','propY','propW','propH','propRot','propOpacity','propFill','propStroke','propStrokeW'].forEach(id=>$(id).addEventListener('input',()=>{const o=selected();if(!o)return;if(id==='propName')o.name=$(id).value;if(id==='propX')o.x=+$('propX').value;if(id==='propY')o.y=H-(+$('propY').value);if(id==='propW')o.w=Math.max(1,+$('propW').value);if(id==='propH')o.h=Math.max(1,+$('propH').value);if(id==='propRot')o.rotation=+$('propRot').value;if(id==='propOpacity')o.opacity=clamp(+$('propOpacity').value,0,1);if(id==='propFill'){o.fill=$('propFill').value;if(o.type==='group')o.children.forEach(c=>{if(c.type!=='line')c.fill=o.fill;});}if(id==='propStroke')o.stroke=$('propStroke').value;if(id==='propStrokeW')o.strokeWidth=+$('propStrokeW').value;changed(false);}));
+
+function renderLayers(){const list=mode==='2d'?objects:scene3d;$('layers').innerHTML='';if(!list.length){$('layers').innerHTML='<div class="empty">No objects yet.</div>';return;}[...list].reverse().forEach(o=>{const row=document.createElement('div');row.className='layer '+(((mode==='2d'?selectedId:selected3d)===o.id)?'selected':'');row.innerHTML=`<button title="Visibility">${o.visible===false?'○':'●'}</button><div class="name">${o.name}</div><button title="Lock">${o.locked?'🔒':'🔓'}</button><button title="Delete">×</button>`;row.addEventListener('click',e=>{if(e.target.tagName==='BUTTON')return;if(mode==='2d')selectedId=o.id;else selected3d=o.id;refreshAll();});const bs=row.querySelectorAll('button');bs[0].onclick=()=>{o.visible=o.visible===false?true:false;changed();};bs[1].onclick=()=>{o.locked=!o.locked;changed();};bs[2].onclick=()=>{pushHistory();if(mode==='2d')objects=objects.filter(x=>x.id!==o.id);else scene3d=scene3d.filter(x=>x.id!==o.id);changed();};$('layers').appendChild(row);});}
+
+function removeSelected(){pushHistory();if(mode==='2d'){objects=objects.filter(o=>o.id!==selectedId);selectedId=null;}else{scene3d=scene3d.filter(o=>o.id!==selected3d);selected3d=null;}changed();}
+function duplicate(){if(mode==='2d'){const o=selected();if(!o)return;pushHistory();const c=deep(o);c.id=uid();c.name+=' Copy';c.x+=20;c.y+=20;objects.push(c);selectedId=c.id;}else{const o=selected3();if(!o)return;pushHistory();const c=deep(o);c.id=uid();c.name+=' Copy';c.position[0]+=.5;scene3d.push(c);selected3d=c.id;}changed();}
+function ungroup(){const o=selected();if(!o||o.type!=='group')return;pushHistory();const idx=objects.indexOf(o);const parts=o.children.map((c,i)=>{const p=worldPoint(o,{x:c.x*o.w,y:c.y*o.h});const child=makeObj(c.type==='rect'?'rectangle':c.type,p.x,p.y,Math.abs(c.w*o.w),Math.abs(c.h*o.h),{name:o.name+' Part '+(i+1),fill:c.fill||o.fill,stroke:c.stroke||o.stroke,strokeWidth:(c.strokeWidth||.01)*Math.max(o.w,o.h)});child.rotation=o.rotation+(c.rotation||0);if(c.type==='line')child.points=[{x:-.5,y:-.5},{x:.5,y:.5}];return child;});objects.splice(idx,1,...parts);selectedId=parts[0]?.id||null;changed();}
+
+function generate2DCode(full=true){const helpers=`void drawEllipse(float rx, float ry)\n{\n    glBegin(GL_TRIANGLE_FAN);\n    glVertex2f(0.0f, 0.0f);\n    for (int i = 0; i <= 100; i++)\n    {\n        float a = 2.0f * 3.1415926f * i / 100.0f;\n        glVertex2f(cos(a) * rx, sin(a) * ry);\n    }\n    glEnd();\n}\n\nvoid drawText(const char* text)\n{\n    for (const char* c = text; *c; ++c) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);\n}\n`;
+const objCode=o=>{const [r,g,b]=hexToRgb01(o.fill==='transparent'?'#000000':o.fill),[sr,sg,sb]=hexToRgb01(o.stroke);let s=`    // ${o.name}\n    glPushMatrix();\n    glTranslatef(${o.x.toFixed(1)}f, ${(H-o.y).toFixed(1)}f, 0.0f);\n    glRotatef(${(-o.rotation).toFixed(1)}f, 0.0f, 0.0f, 1.0f);\n    glColor4f(${r.toFixed(3)}f, ${g.toFixed(3)}f, ${b.toFixed(3)}f, ${o.opacity.toFixed(2)}f);\n`;
+if(o.type==='rectangle')s+=`    glBegin(GL_POLYGON);\n        glVertex2f(${(-o.w/2).toFixed(1)}f, ${(o.h/2).toFixed(1)}f);\n        glVertex2f(${(o.w/2).toFixed(1)}f, ${(o.h/2).toFixed(1)}f);\n        glVertex2f(${(o.w/2).toFixed(1)}f, ${(-o.h/2).toFixed(1)}f);\n        glVertex2f(${(-o.w/2).toFixed(1)}f, ${(-o.h/2).toFixed(1)}f);\n    glEnd();\n`;
+else if(o.type==='ellipse')s+=`    drawEllipse(${(o.w/2).toFixed(1)}f, ${(o.h/2).toFixed(1)}f);\n`;
+else if(o.type==='triangle')s+=`    glBegin(GL_TRIANGLES);\n        glVertex2f(0.0f, ${(o.h/2).toFixed(1)}f);\n        glVertex2f(${(-o.w/2).toFixed(1)}f, ${(-o.h/2).toFixed(1)}f);\n        glVertex2f(${(o.w/2).toFixed(1)}f, ${(-o.h/2).toFixed(1)}f);\n    glEnd();\n`;
+else if(o.type==='polygon'){s+='    glBegin(GL_POLYGON);\n';(o.points||[]).forEach(p=>s+=`        glVertex2f(${(p.x*o.w).toFixed(1)}f, ${(-p.y*o.h).toFixed(1)}f);\n`);s+='    glEnd();\n';}
+else if(o.type==='line'||o.type==='pen'){s+=`    glColor3f(${sr.toFixed(3)}f, ${sg.toFixed(3)}f, ${sb.toFixed(3)}f);\n    glLineWidth(${o.strokeWidth.toFixed(1)}f);\n    glBegin(${o.type==='line'?'GL_LINES':'GL_LINE_STRIP'});\n`; (o.points||[]).forEach(p=>s+=`        glVertex2f(${(p.x*o.w).toFixed(1)}f, ${(-p.y*o.h).toFixed(1)}f);\n`);s+='    glEnd();\n';}
+else if(o.type==='text')s+=`    glRasterPos2f(${(-o.w/2).toFixed(1)}f, 0.0f);\n    drawText("${o.text.replace(/"/g,'\\"')}");\n`;
+else if(o.type==='group'){s+=`    // Group exported as editable child primitives\n`;o.children.forEach(c=>{const cr=hexToRgb01(c.fill||o.fill);s+=`    glPushMatrix(); glTranslatef(${(c.x*o.w).toFixed(1)}f, ${(-c.y*o.h).toFixed(1)}f, 0.0f); glColor3f(${cr[0].toFixed(3)}f, ${cr[1].toFixed(3)}f, ${cr[2].toFixed(3)}f);\n`;const cw=c.w*o.w,ch=c.h*o.h;if(c.type==='rect')s+=`    glBegin(GL_POLYGON); glVertex2f(${(-cw/2).toFixed(1)}f, ${(ch/2).toFixed(1)}f); glVertex2f(${(cw/2).toFixed(1)}f, ${(ch/2).toFixed(1)}f); glVertex2f(${(cw/2).toFixed(1)}f, ${(-ch/2).toFixed(1)}f); glVertex2f(${(-cw/2).toFixed(1)}f, ${(-ch/2).toFixed(1)}f); glEnd();\n`;else if(c.type==='ellipse')s+=`    drawEllipse(${(cw/2).toFixed(1)}f, ${(ch/2).toFixed(1)}f);\n`;else if(c.type==='triangle')s+=`    glBegin(GL_TRIANGLES); glVertex2f(0, ${(ch/2).toFixed(1)}f); glVertex2f(${(-cw/2).toFixed(1)}f, ${(-ch/2).toFixed(1)}f); glVertex2f(${(cw/2).toFixed(1)}f, ${(-ch/2).toFixed(1)}f); glEnd();\n`;else if(c.type==='line')s+=`    glLineWidth(${Math.max(1,(c.strokeWidth||.01)*Math.max(o.w,o.h)).toFixed(1)}f); glBegin(GL_LINES); glVertex2f(${(-cw/2).toFixed(1)}f, ${(ch/2).toFixed(1)}f); glVertex2f(${(cw/2).toFixed(1)}f, ${(-ch/2).toFixed(1)}f); glEnd();\n`;else if(c.type==='polygon'){s+='    glBegin(GL_POLYGON); ';(c.points||[]).forEach(p=>s+=`glVertex2f(${(p[0]*o.w).toFixed(1)}f, ${(-p[1]*o.h).toFixed(1)}f); `);s+='glEnd();\n';}s+='    glPopMatrix();\n';});}
+s+='    glPopMatrix();\n';return s;};
+const drawing=objects.filter(o=>o.visible).map(objCode).join('\n');if(!full)return drawing;return `/*\n    OpenGL Visual Designer Pro\n    Generated for: Safayet Ullah\n    Department: Computer Science and Engineering\n    University: Southeast University\n    Copyright © 2026 Safayet Ullah. All rights reserved.\n*/\n\n#include <Windows.h>\n#include <GL/glut.h>\n#include <cmath>\n\n${helpers}\nvoid init()\n{\n    glClearColor(${hexToRgb01(canvasBg)[0].toFixed(3)}f, ${hexToRgb01(canvasBg)[1].toFixed(3)}f, ${hexToRgb01(canvasBg)[2].toFixed(3)}f, 1.0f);\n    glMatrixMode(GL_PROJECTION);\n    glLoadIdentity();\n    gluOrtho2D(0.0, 900.0, 0.0, 600.0);\n}\n\nvoid display()\n{\n    glClear(GL_COLOR_BUFFER_BIT);\n    glEnable(GL_BLEND);\n    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);\n\n${drawing}\n    glFlush();\n}\n\nint main(int argc, char** argv)\n{\n    glutInit(&argc, argv);\n    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);\n    glutInitWindowPosition(100, 100);\n    glutInitWindowSize(900, 600);\n    glutCreateWindow("Safayet Ullah - Generated OpenGL Design");\n    init();\n    glutDisplayFunc(display);\n    glutMainLoop();\n    return 0;\n}\n`;}
+
+function updateLiveCode(){ $('liveCode').value=mode==='2d'?generate2DCode(false):generate3DCode(false); }
+
+// ---------- 3D ----------
+const gl=$('canvas3d').getContext('webgl',{antialias:true});let glProg,loc={},meshes={};
+function shader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+function initGL(){if(!gl)return;const vs=shader(gl.VERTEX_SHADER,'attribute vec3 p; attribute vec3 n; uniform mat4 mvp; uniform mat4 model; varying float light; void main(){vec3 nn=normalize((model*vec4(n,0.0)).xyz); light=max(0.25,dot(nn,normalize(vec3(0.5,0.8,1.0)))); gl_Position=mvp*vec4(p,1.0);}');const fs=shader(gl.FRAGMENT_SHADER,'precision mediump float; uniform vec3 color; varying float light; void main(){gl_FragColor=vec4(color*light,1.0);}');glProg=gl.createProgram();gl.attachShader(glProg,vs);gl.attachShader(glProg,fs);gl.linkProgram(glProg);gl.useProgram(glProg);loc.p=gl.getAttribLocation(glProg,'p');loc.n=gl.getAttribLocation(glProg,'n');loc.mvp=gl.getUniformLocation(glProg,'mvp');loc.model=gl.getUniformLocation(glProg,'model');loc.color=gl.getUniformLocation(glProg,'color');meshes.cube=meshCube();meshes.pyramid=meshPyramid();meshes.plane=meshPlane();meshes.sphere=meshSphere(18,24);meshes.cone=meshCone(28,false);meshes.cylinder=meshCone(28,true);}
+function makeMesh(pos,norm,idx){const m={count:idx.length};m.p=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,m.p);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(pos),gl.STATIC_DRAW);m.n=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,m.n);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(norm),gl.STATIC_DRAW);m.i=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,m.i);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(idx),gl.STATIC_DRAW);return m;}
+function meshCube(){const p=[],n=[],i=[];const faces=[[[0,0,1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]],[[0,0,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]],[[1,0,0],[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]],[[-1,0,0],[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]],[[0,1,0],[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]],[[0,-1,0],[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]]];faces.forEach(f=>{const base=p.length/3;for(let k=1;k<5;k++){p.push(...f[k]);n.push(...f[0]);}i.push(base,base+1,base+2,base,base+2,base+3);});return makeMesh(p,n,i);}
+function meshPyramid(){const p=[-1,-1,-1,1,-1,-1,1,-1,1,-1,-1,1, 0,1,0];const idx=[0,2,1,0,3,2,0,1,4,1,2,4,2,3,4,3,0,4];const n=p.map(()=>0);for(let k=0;k<idx.length;k+=3){const a=idx[k],b=idx[k+1],c=idx[k+2],A=p.slice(a*3,a*3+3),B=p.slice(b*3,b*3+3),C=p.slice(c*3,c*3+3),u=[B[0]-A[0],B[1]-A[1],B[2]-A[2]],v=[C[0]-A[0],C[1]-A[1],C[2]-A[2]],nn=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];[a,b,c].forEach(q=>{n[q*3]+=nn[0];n[q*3+1]+=nn[1];n[q*3+2]+=nn[2];});}return makeMesh(p,n,idx);}
+function meshPlane(){return makeMesh([-1,0,-1,1,0,-1,1,0,1,-1,0,1],[0,1,0,0,1,0,0,1,0,0,1,0],[0,1,2,0,2,3]);}
+function meshSphere(rows,cols){const p=[],n=[],i=[];for(let y=0;y<=rows;y++){const v=y/rows,ph=v*Math.PI;for(let x=0;x<=cols;x++){const u=x/cols,th=u*Math.PI*2,s=Math.sin(ph);const X=Math.cos(th)*s,Y=Math.cos(ph),Z=Math.sin(th)*s;p.push(X,Y,Z);n.push(X,Y,Z);}}for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const a=y*(cols+1)+x,b=a+cols+1;i.push(a,b,a+1,b,b+1,a+1);}return makeMesh(p,n,i);}
+function meshCone(seg,cyl){const p=[],n=[],i=[];for(let k=0;k<seg;k++){const a=2*Math.PI*k/seg,b=2*Math.PI*(k+1)/seg,base=p.length/3;p.push(Math.cos(a),-1,Math.sin(a),Math.cos(b),-1,Math.sin(b));if(cyl)p.push(Math.cos(b),1,Math.sin(b),Math.cos(a),1,Math.sin(a));else p.push(0,1,0);for(let q=0;q<(cyl?4:3);q++){const A=q<2?(q===0?a:b):(cyl?(q===2?b:a):a);n.push(Math.cos(A),cyl?0:.5,Math.sin(A));}if(cyl)i.push(base,base+1,base+2,base,base+2,base+3);else i.push(base,base+1,base+2);}return makeMesh(p,n,i);}
+function matMul(a,b){const r=new Array(16).fill(0);for(let c=0;c<4;c++)for(let r0=0;r0<4;r0++)for(let k=0;k<4;k++)r[c*4+r0]+=a[k*4+r0]*b[c*4+k];return r;}
+const I=()=>[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+function trans(x,y,z){const m=I();m[12]=x;m[13]=y;m[14]=z;return m;}function scale(x,y,z){const m=I();m[0]=x;m[5]=y;m[10]=z;return m;}function rx(a){a=rad(a);const c=Math.cos(a),s=Math.sin(a);return[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1]}function ry(a){a=rad(a);const c=Math.cos(a),s=Math.sin(a);return[c,0,-s,0,0,1,0,0,s,0,c,0,0,0,0,1]}function rz(a){a=rad(a);const c=Math.cos(a),s=Math.sin(a);return[c,s,0,0,-s,c,0,0,0,0,1,0,0,0,0,1]}
+function perspective(fov,asp,n,f){const t=1/Math.tan(rad(fov)/2);return[t/asp,0,0,0,0,t,0,0,0,0,(f+n)/(n-f),-1,0,0,2*f*n/(n-f),0]}
+function lookAt(e,t,u){const z=norm([e[0]-t[0],e[1]-t[1],e[2]-t[2]]),x=norm(cross(u,z)),y=cross(z,x);return[x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,e),-dot(y,e),-dot(z,e),1]}
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];const norm=a=>{const l=Math.hypot(...a)||1;return a.map(v=>v/l)};
+function draw3d(){if(!gl||mode!=='3d')return;gl.viewport(0,0,gl.canvas.width,gl.canvas.height);gl.enable(gl.DEPTH_TEST);gl.enable(gl.CULL_FACE);gl.clearColor(.035,.065,.12,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(glProg);const yaw=rad(camera.yaw),pitch=rad(camera.pitch),eye=[camera.target[0]+camera.dist*Math.cos(pitch)*Math.sin(yaw),camera.target[1]+camera.dist*Math.sin(pitch),camera.target[2]+camera.dist*Math.cos(pitch)*Math.cos(yaw)],view=lookAt(eye,camera.target,[0,1,0]),proj=perspective(45,gl.canvas.width/gl.canvas.height,.1,100);scene3d.filter(o=>o.visible!==false).forEach(o=>{let model=trans(...o.position);model=matMul(model,rx(o.rotation[0]));model=matMul(model,ry(o.rotation[1]));model=matMul(model,rz(o.rotation[2]));model=matMul(model,scale(...o.scale));const mvp=matMul(proj,matMul(view,model)),m=meshes[o.type]||meshes.cube;gl.uniformMatrix4fv(loc.mvp,false,new Float32Array(mvp));gl.uniformMatrix4fv(loc.model,false,new Float32Array(model));gl.uniform3fv(loc.color,new Float32Array(hexToRgb01(o.color)));gl.bindBuffer(gl.ARRAY_BUFFER,m.p);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(loc.p);gl.bindBuffer(gl.ARRAY_BUFFER,m.n);gl.vertexAttribPointer(loc.n,3,gl.FLOAT,false,0,0);gl.enableVertexAttribArray(loc.n);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,m.i);gl.drawElements(gl.TRIANGLES,m.count,gl.UNSIGNED_SHORT,0);});}
+function add3D(type){pushHistory();const o={id:uid(),type,name:type[0].toUpperCase()+type.slice(1),position:[0,0,0],rotation:[0,0,0],scale:[1,1,1],color:'#5b8cff',visible:true,locked:false};scene3d.push(o);selected3d=o.id;changed();}
+function update3Props(){const o=selected3();$('noSelection3d').classList.toggle('hidden',!!o);$('objectProps3d').classList.toggle('hidden',!o);if(!o)return;$('selectionName').textContent=o.name;$('p3Name').value=o.name;['x','y','z'].forEach((k,i)=>$('p3'+k).value=o.position[i]);['rx','ry','rz'].forEach((k,i)=>$('p3'+k).value=o.rotation[i]);['sx','sy','sz'].forEach((k,i)=>$('p3'+k).value=o.scale[i]);$('p3Color').value=o.color;}
+['p3Name','p3x','p3y','p3z','p3rx','p3ry','p3rz','p3sx','p3sy','p3sz','p3Color'].forEach(id=>$(id).addEventListener('input',()=>{const o=selected3();if(!o)return;if(id==='p3Name')o.name=$(id).value;if(/^p3[xyz]$/.test(id))o.position[['p3x','p3y','p3z'].indexOf(id)]=+$(id).value;if(/^p3r/.test(id))o.rotation[['p3rx','p3ry','p3rz'].indexOf(id)]=+$(id).value;if(/^p3s/.test(id))o.scale[['p3sx','p3sy','p3sz'].indexOf(id)]=Math.max(.05,+$(id).value);if(id==='p3Color')o.color=$(id).value;changed(false);}));
+$('canvas3d').addEventListener('mousedown',e=>orbit={x:e.clientX,y:e.clientY,yaw:camera.yaw,pitch:camera.pitch});window.addEventListener('mousemove',e=>{if(!orbit)return;camera.yaw=orbit.yaw+(e.clientX-orbit.x)*.4;camera.pitch=clamp(orbit.pitch-(e.clientY-orbit.y)*.35,-80,80);draw3d();});window.addEventListener('mouseup',()=>orbit=null);$('canvas3d').addEventListener('wheel',e=>{e.preventDefault();camera.dist=clamp(camera.dist+Math.sign(e.deltaY)*.7,3,30);draw3d();},{passive:false});
+function generate3DCode(full=true){const body=scene3d.filter(o=>o.visible!==false).map(o=>{const c=hexToRgb01(o.color);let primitive='glutSolidCube(2.0);';if(o.type==='sphere')primitive='glutSolidSphere(1.0, 32, 24);';if(o.type==='cone')primitive='glutSolidCone(1.0, 2.0, 32, 12);';if(o.type==='cylinder')primitive='glutSolidCylinder(1.0, 2.0, 32, 12);';if(o.type==='plane')primitive='glBegin(GL_QUADS); glVertex3f(-1,0,-1); glVertex3f(1,0,-1); glVertex3f(1,0,1); glVertex3f(-1,0,1); glEnd();';if(o.type==='pyramid')primitive='drawPyramid();';return `    // ${o.name}\n    glPushMatrix();\n    glTranslatef(${o.position.map(v=>v.toFixed(2)+'f').join(', ')});\n    glRotatef(${o.rotation[0].toFixed(1)}f, 1,0,0); glRotatef(${o.rotation[1].toFixed(1)}f, 0,1,0); glRotatef(${o.rotation[2].toFixed(1)}f, 0,0,1);\n    glScalef(${o.scale.map(v=>v.toFixed(2)+'f').join(', ')});\n    glColor3f(${c.map(v=>v.toFixed(3)+'f').join(', ')});\n    ${primitive}\n    glPopMatrix();`;}).join('\n\n');if(!full)return body;return `/* Generated by OpenGL Visual Designer Pro\n   Safayet Ullah · CSE · Southeast University · © 2026 */\n#include <Windows.h>\n#include <GL/glut.h>\n\nvoid drawPyramid(){ glBegin(GL_TRIANGLES); glVertex3f(0,1,0); glVertex3f(-1,-1,1); glVertex3f(1,-1,1); glVertex3f(0,1,0); glVertex3f(1,-1,1); glVertex3f(1,-1,-1); glVertex3f(0,1,0); glVertex3f(1,-1,-1); glVertex3f(-1,-1,-1); glVertex3f(0,1,0); glVertex3f(-1,-1,-1); glVertex3f(-1,-1,1); glEnd(); }\n\nvoid display(){\n    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);\n    glLoadIdentity();\n    gluLookAt(7,5,9, 0,0,0, 0,1,0);\n${body}\n    glutSwapBuffers();\n}\n\nvoid reshape(int w,int h){ glViewport(0,0,w,h); glMatrixMode(GL_PROJECTION); glLoadIdentity(); gluPerspective(45.0,(double)w/h,0.1,100.0); glMatrixMode(GL_MODELVIEW); }\nint main(int argc,char** argv){ glutInit(&argc,argv); glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH); glutInitWindowSize(900,600); glutCreateWindow("Safayet Ullah - Generated 3D Scene"); glEnable(GL_DEPTH_TEST); glutDisplayFunc(display); glutReshapeFunc(reshape); glutMainLoop(); return 0; }`;}
+
+function exportPNG(){if(mode!=='2d')return alert('PNG export is available from the 2D canvas.');const keep=showGrid;showGrid=false;redraw2d(true);const a=document.createElement('a');a.download='safayet_opengl_design.png';a.href=canvas.toDataURL('image/png');a.click();showGrid=keep;redraw2d();}
+function saveProject(){const blob=new Blob([JSON.stringify({app:'OpenGL Visual Designer Pro',author:'Safayet Ullah',department:'Computer Science and Engineering',university:'Southeast University',version:'1.0.0',canvasBg,objects,scene3d},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='safayet_opengl_project.json';a.click();URL.revokeObjectURL(a.href);}
+function loadProject(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(r.result);pushHistory();objects=p.objects||[];scene3d=p.scene3d||[];canvasBg=p.canvasBg||'#ffffff';$('canvasBg').value=canvasBg;selectedId=null;selected3d=null;changed();}catch(e){alert('Invalid project file.');}};r.readAsText(file);}
+function showCode(){const code=mode==='2d'?generate2DCode(true):generate3DCode(true);$('generatedCode').value=code;$('codeModal').classList.remove('hidden');}
+function downloadCpp(){const blob=new Blob([$('generatedCode').value],{type:'text/x-c++src'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=mode==='2d'?'generated_2d_opengl.cpp':'generated_3d_opengl.cpp';a.click();URL.revokeObjectURL(a.href);}
+async function copyText(text){try{await navigator.clipboard.writeText(text);$('status').textContent='Copied to clipboard';}catch(e){alert('Copy failed. Select the code and copy manually.');}}
+
+// UI events
+document.querySelectorAll('.tool-btn').forEach(b=>b.onclick=()=>{
+  const nextTool=b.dataset.tool;
+  if(tool==='polygon'&&polyDraft.length&&nextTool!=='polygon'){
+    if(polyDraft.length>=3)finishPolygon(false);
+    else cancelPolygon();
+  }
+  setActiveTool(nextTool);
+});
+document.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>template(b.dataset.template));document.querySelectorAll('[data-primitive]').forEach(b=>b.onclick=()=>add3D(b.dataset.primitive));
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{mode=t.dataset.mode;refreshAll();});
+$('finishPolygonBtn').onclick=e=>{e.preventDefault();e.stopPropagation();finishPolygon();};$('undoBtn').onclick=undo;$('redoBtn').onclick=redo;$('deleteBtn').onclick=removeSelected;$('duplicateBtn').onclick=duplicate;$('ungroupBtn').onclick=ungroup;
+$('frontBtn').onclick=()=>{const o=selected();if(!o)return;pushHistory();objects=objects.filter(x=>x!==o);objects.push(o);changed();};$('backBtn').onclick=()=>{const o=selected();if(!o)return;pushHistory();objects=objects.filter(x=>x!==o);objects.unshift(o);changed();};
+$('layerUp').onclick=()=>{const list=mode==='2d'?objects:scene3d,id=mode==='2d'?selectedId:selected3d,i=list.findIndex(o=>o.id===id);if(i<0||i===list.length-1)return;pushHistory();[list[i],list[i+1]]=[list[i+1],list[i]];changed();};$('layerDown').onclick=()=>{const list=mode==='2d'?objects:scene3d,id=mode==='2d'?selectedId:selected3d,i=list.findIndex(o=>o.id===id);if(i<=0)return;pushHistory();[list[i],list[i-1]]=[list[i-1],list[i]];changed();};
+$('zoomRange').oninput=()=>{zoom=+$('zoomRange').value/100;$('zoomText').textContent=Math.round(zoom*100)+'%';$('stage2d').style.transform=`scale(${zoom})`;$('stage3d').style.transform=`scale(${zoom})`;};$('gridBtn').onclick=()=>{showGrid=!showGrid;$('gridBtn').classList.toggle('active',showGrid);redraw2d();};$('snapBtn').onclick=()=>{snap=!snap;$('snapBtn').classList.toggle('active',snap);};$('gridBtn').classList.add('active');$('snapBtn').classList.add('active');
+$('canvasBg').oninput=()=>{canvasBg=$('canvasBg').value;changed(false);};$('centerBtn').onclick=()=>{$('canvasShell').scrollTo({left:0,top:0,behavior:'smooth'});};$('newBtn').onclick=()=>{if(!confirm('Start a new project?'))return;pushHistory();objects=[];scene3d=[];selectedId=null;selected3d=null;changed();};$('saveBtn').onclick=saveProject;$('openBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>e.target.files[0]&&loadProject(e.target.files[0]);$('pngBtn').onclick=exportPNG;$('codeBtn').onclick=showCode;$('aboutBtn').onclick=()=>$('aboutModal').classList.remove('hidden');$('copyCodeBtn').onclick=()=>copyText($('liveCode').value);$('copyModalCode').onclick=()=>copyText($('generatedCode').value);$('downloadCpp').onclick=downloadCpp;document.querySelectorAll('[data-close]').forEach(b=>b.onclick=() => $(b.dataset.close).classList.add('hidden'));
+window.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='d'){e.preventDefault();duplicate();}if(e.key==='Delete'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName))removeSelected();if(e.key==='Enter'&&tool==='polygon'){e.preventDefault();finishPolygon();}if(e.key==='Escape'){if(polyDraft.length)cancelPolygon();else{action=null;preview=null;redraw2d();}}});
+
+loadAuto();$('canvasBg').value=canvasBg;initGL();$('zoomRange').dispatchEvent(new Event('input'));refreshAll();
+})();
+</script>
 </body>
 </html>
