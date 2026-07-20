@@ -154,15 +154,15 @@ canvas{display:block}.canvas2d{width:900px;height:600px}.canvas3d{width:900px;he
       </div></div>
 
       <div class="panel"><div class="panel-head"><span>Layers</span><span class="row"><button class="btn icon-btn" id="layerUp">↑</button><button class="btn icon-btn" id="layerDown">↓</button></span></div><div class="panel-body"><div class="layers" id="layers"></div></div></div>
-      <div class="panel"><div class="panel-head"><span>Selected Object Code</span><button class="btn" id="copyCodeBtn">Copy</button></div><div class="panel-body"><textarea id="liveCode" class="codebox" spellcheck="false" wrap="off" aria-label="Selected object OpenGL code"></textarea></div></div>
+      <div class="panel"><div class="panel-head"><span>Selected Object Code · OpenGL 3.3</span><button class="btn" id="copyCodeBtn">Copy</button></div><div class="panel-body"><textarea id="liveCode" class="codebox" spellcheck="false" wrap="off" aria-label="Selected object modern OpenGL code"></textarea></div></div>
     </aside>
   </main>
 
   <footer class="statusbar"><span id="status">Ready</span><span>© 2026 Safayet Ullah · Department of Computer Science and Engineering · Southeast University</span></footer>
 </div>
 
-<div class="modal-back hidden" id="codeModal"><div class="modal code-modal"><div class="modal-head"><strong>Full Generated OpenGL Code</strong><div class="row"><button class="btn" id="copyModalCode">Copy</button><button class="btn" id="downloadCpp">Download .cpp</button><button class="btn danger" data-close="codeModal">Close</button></div></div><div class="modal-body"><textarea id="generatedCode" spellcheck="false" wrap="off" aria-label="Full generated OpenGL code"></textarea></div></div></div>
-<div class="modal-back hidden" id="aboutModal"><div class="modal" style="width:min(650px,94vw)"><div class="modal-head"><strong>About Developer</strong><button class="btn danger" data-close="aboutModal">Close</button></div><div class="modal-body"><div class="about-card"><div class="avatar">SU</div><div><h2 style="margin:0 0 8px">Safayet Ullah</h2><p style="margin:0 0 5px">Department of Computer Science and Engineering</p><p style="margin:0 0 12px">Southeast University</p><p class="notice">OpenGL Visual Designer Pro is a browser-based visual editor for creating 2D GLUT drawings and basic 3D GLUT scenes without manually calculating every coordinate.</p><p class="notice">Version 1.0.0 · © 2026 Safayet Ullah. All rights reserved.</p></div></div></div></div></div>
+<div class="modal-back hidden" id="codeModal"><div class="modal code-modal"><div class="modal-head"><strong>Full Generated OpenGL 3.3 Core Code</strong><div class="row"><button class="btn" id="copyModalCode">Copy</button><button class="btn" id="downloadCpp">Download .cpp</button><button class="btn danger" data-close="codeModal">Close</button></div></div><div class="modal-body"><textarea id="generatedCode" spellcheck="false" wrap="off" aria-label="Full generated modern OpenGL code"></textarea></div></div></div>
+<div class="modal-back hidden" id="aboutModal"><div class="modal" style="width:min(650px,94vw)"><div class="modal-head"><strong>About Developer</strong><button class="btn danger" data-close="aboutModal">Close</button></div><div class="modal-body"><div class="about-card"><div class="avatar">SU</div><div><h2 style="margin:0 0 8px">Safayet Ullah</h2><p style="margin:0 0 5px">Department of Computer Science and Engineering</p><p style="margin:0 0 12px">Southeast University</p><p class="notice">OpenGL Visual Designer Pro is a browser-based visual editor that generates modern OpenGL 3.3 Core C++ using GLAD, GLFW, GLM, shaders, VAOs, VBOs and EBOs.</p><p class="notice">Version 1.0.0 · © 2026 Safayet Ullah. All rights reserved.</p></div></div></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -691,7 +691,384 @@ function readableEmitGeometry(type,w,h,fill,stroke,strokeWidth,points,text,inden
 function readableEmitChild(c,o){const cw=(c.w||.1)*o.w,ch=(c.h||.1)*o.h;let s=`    // Part: ${String(c.name||'Group part').replace(/\r?\n/g,' ')}\n    glPushMatrix();\n    glTranslatef(${readableCppNumber((c.x||0)*o.w)}, ${readableCppNumber(-(c.y||0)*o.h)}, 0.0f);\n`;if(c.rotation)s+=`    glRotatef(${readableCppNumber(-(c.rotation||0))}, 0.0f, 0.0f, 1.0f);\n`;s+=readableEmitGeometry(c.type,cw,ch,c.fill||o.fill,c.stroke||o.stroke,(c.strokeWidth||0)*Math.max(o.w,o.h),c.points,c.text);return s+'    glPopMatrix();\n';}
 function readableEmitObject(o){let s=`    // Object: ${String(o.name||o.type).replace(/\r?\n/g,' ')}\n    glPushMatrix();\n    glTranslatef(${readableCppNumber(o.x)}, ${readableCppNumber(H-o.y)}, 0.0f);\n    glRotatef(${readableCppNumber(-o.rotation)}, 0.0f, 0.0f, 1.0f);\n`;if(o.type==='group')(o.children||[]).forEach(c=>s+=readableEmitChild(c,o));else s+=readableEmitGeometry(o.type,o.w,o.h,o.fill,o.stroke,o.strokeWidth,o.points,o.text);return s+'    glPopMatrix();\n';}
 function buildReadable2DCode(full=true){const list=full?objects.filter(o=>o.visible!==false):(selected()?[selected()]:[]);if(!full){if(!list.length)return '// No object selected.\n// Select an object or a layer to inspect its OpenGL code.\n';return `// Selected object: ${list[0].name}\n// This is the editable OpenGL/GLUT fragment for the current selection.\n\n${readableEmitObject(list[0])}`;}const drawing=list.map(readableEmitObject).join('\n');return `/*\n * OpenGL Visual Designer Pro\n * Generated for Safayet Ullah\n * Computer Science & Engineering · Southeast University\n *\n * The complete editable scene is organized into helpers, scene objects,\n * initialization, rendering, and the GLUT entry point.\n */\n\n#include <Windows.h>\n#include <GL/glut.h>\n#include <cmath>\n\n${READABLE_CPP_HELPERS}\n\n// ---------- Scene ----------\nvoid drawScene()\n{\n${drawing||'    // No objects have been added yet.'}\n}\n\n// ---------- Window and rendering ----------\nvoid initOpenGL()\n{\n    glClearColor(${hexToRgb01(canvasBg)[0].toFixed(3)}f, ${hexToRgb01(canvasBg)[1].toFixed(3)}f, ${hexToRgb01(canvasBg)[2].toFixed(3)}f, 1.0f);\n    glMatrixMode(GL_PROJECTION);\n    glLoadIdentity();\n    gluOrtho2D(0.0, 900.0, 0.0, 600.0);\n    glMatrixMode(GL_MODELVIEW);\n    glLoadIdentity();\n    glEnable(GL_BLEND);\n    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);\n}\n\nvoid display()\n{\n    glClear(GL_COLOR_BUFFER_BIT);\n    glLoadIdentity();\n    drawScene();\n    glFlush();\n}\n\nvoid reshape(int width, int height)\n{\n    glViewport(0, 0, width, height);\n    glMatrixMode(GL_PROJECTION);\n    glLoadIdentity();\n    gluOrtho2D(0.0, 900.0, 0.0, 600.0);\n    glMatrixMode(GL_MODELVIEW);\n}\n\n// ---------- Program entry ----------\nint main(int argc, char** argv)\n{\n    glutInit(&argc, argv);\n    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);\n    glutInitWindowSize(900, 600);\n    glutCreateWindow("Safayet Ullah - OpenGL Visual Design");\n    initOpenGL();\n    glutDisplayFunc(display);\n    glutReshapeFunc(reshape);\n    glutMainLoop();\n    return 0;\n}\n`;}
-generate2DCode=buildReadable2DCode;
+// ---------- Modern OpenGL 3.3 Core generator ----------
+// The exported program follows the classroom GLAD + GLFW + GLM structure:
+// shaders, VAO/VBO/EBO setup, matrix transforms, render loop and cleanup.
+function modernCppNumber(value,digits=4){let n=Number(value);if(!Number.isFinite(n)||Math.abs(n)<1e-8)n=0;let s=n.toFixed(digits).replace(/0+$/,'').replace(/\.$/,'');if(!s.includes('.'))s+='.0';return s+'f';}
+function modernCppComment(value){return String(value||'Object').replace(/[\r\n]+/g,' ').replace(/[^a-zA-Z0-9 _./()\-]/g,'').trim()||'Object';}
+function modernColorVector(hex,opacity=1){const c=hexToRgb01(hex&&hex!=='transparent'?hex:'#000000');return `glm::vec4(${modernCppNumber(c[0],3)}, ${modernCppNumber(c[1],3)}, ${modernCppNumber(c[2],3)}, ${modernCppNumber(clamp(opacity,0,1),3)})`;}
+function modernModel(x,y,rotation,sx,sy){return `makeModelMatrix(${modernCppNumber(x)}, ${modernCppNumber(y)}, ${modernCppNumber(rotation)}, ${modernCppNumber(sx)}, ${modernCppNumber(sy)})`;}
+function modernEllipsePoints(segments=48){const pts=[];for(let i=0;i<segments;i++){const a=i*Math.PI*2/segments;pts.push([Math.cos(a)*.5,Math.sin(a)*.5]);}return pts;}
+function modernRegularPoints(sides){const pts=[];for(let i=0;i<sides;i++){const a=-Math.PI/2+i*Math.PI*2/sides;pts.push([Math.cos(a)*.5,Math.sin(a)*.5]);}return pts;}
+function modernRoundedRectPoints(pixelW,pixelH){const r=Math.min(pixelW,pixelH)*.16,rx=r/Math.max(1,pixelW),ry=r/Math.max(1,pixelH),pts=[],corners=[[-.5+rx,-.5+ry,Math.PI,Math.PI*1.5],[.5-rx,-.5+ry,Math.PI*1.5,Math.PI*2],[.5-rx,.5-ry,0,Math.PI*.5],[-.5+rx,.5-ry,Math.PI*.5,Math.PI]];corners.forEach(([cx,cy,a0,a1])=>{for(let i=0;i<=8;i++){const a=a0+(a1-a0)*i/8;pts.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry]);}});return pts;}
+function modernShapePoints(type,points,pixelW,pixelH){
+  const p=(x,y)=>[x,y];
+  if(type==='rect'||type==='rectangle')return [p(-.5,-.5),p(.5,-.5),p(.5,.5),p(-.5,.5)];
+  if(type==='roundrect')return modernRoundedRectPoints(pixelW,pixelH);
+  if(['ellipse','smiley','sun','nosymbol','moon'].includes(type))return modernEllipsePoints();
+  if(type==='triangle')return [p(0,-.5),p(-.5,.5),p(.5,.5)];
+  if(type==='righttriangle')return [p(-.5,-.5),p(.5,.5),p(-.5,.5)];
+  if(type==='diamond')return [p(0,-.5),p(.5,0),p(0,.5),p(-.5,0)];
+  if(type==='parallelogram')return [p(-.38,-.5),p(.5,-.5),p(.38,.5),p(-.5,.5)];
+  if(type==='trapezoid')return [p(-.38,-.5),p(.38,-.5),p(.5,.5),p(-.5,.5)];
+  if(type==='pentagon')return modernRegularPoints(5);
+  if(type==='hexagon')return modernRegularPoints(6);
+  if(type==='octagon')return modernRegularPoints(8);
+  if(type==='star'||type==='burst'){const count=type==='star'?10:20,inner=type==='star'?.21:.16,pts=[];for(let i=0;i<count;i++){const a=-Math.PI/2+i*Math.PI*2/count,r=i%2?inner:.5;pts.push([Math.cos(a)*r,Math.sin(a)*r]);}return pts;}
+  if(type==='heart'){const pts=[];for(let i=0;i<72;i++){const t=i*Math.PI*2/72,x=16*Math.pow(Math.sin(t),3)/34,y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))/34;pts.push([x,y]);}return pts;}
+  if(type==='cloud')return [p(-.48,.22),p(-.47,.08),p(-.38,-.02),p(-.32,-.20),p(-.15,-.29),p(-.02,-.43),p(.18,-.39),p(.28,-.23),p(.43,-.18),p(.50,-.02),p(.46,.18),p(.34,.25),p(-.35,.25)];
+  if(type==='cylinder'){const pts=[];for(let i=0;i<=24;i++){const a=Math.PI+i*Math.PI/24;pts.push([Math.cos(a)*.5,-.30+Math.sin(a)*.12]);}for(let i=0;i<=24;i++){const a=i*Math.PI/24;pts.push([Math.cos(a)*.5,.30+Math.sin(a)*.12]);}return pts;}
+  if(type==='cube')return [p(-.42,-.25),p(0,-.5),p(.42,-.25),p(.42,.28),p(0,.5),p(-.42,.28)];
+  if(type==='cross'||type==='plus')return [p(-.18,-.5),p(.18,-.5),p(.18,-.18),p(.5,-.18),p(.5,.18),p(.18,.18),p(.18,.5),p(-.18,.5),p(-.18,.18),p(-.5,.18),p(-.5,-.18),p(-.18,-.18)];
+  if(type==='minus')return [p(-.5,-.13),p(.5,-.13),p(.5,.13),p(-.5,.13)];
+  if(type==='arrow'||type==='rightarrow')return [p(-.5,-.16),p(.08,-.16),p(.08,-.44),p(.5,0),p(.08,.44),p(.08,.16),p(-.5,.16)];
+  if(type==='leftarrow')return modernShapePoints('rightarrow',null,pixelW,pixelH).map(([x,y])=>[-x,y]);
+  if(type==='uparrow')return modernShapePoints('rightarrow',null,pixelH,pixelW).map(([x,y])=>[-y,x]);
+  if(type==='downarrow')return modernShapePoints('rightarrow',null,pixelH,pixelW).map(([x,y])=>[y,-x]);
+  if(type==='chevron')return [p(-.5,-.5),p(-.12,-.5),p(.5,0),p(-.12,.5),p(-.5,.5),p(.08,0)];
+  if(type==='callout')return [p(-.5,-.5),p(.5,-.5),p(.5,.22),p(.10,.22),p(-.18,.5),p(-.12,.22),p(-.5,.22)];
+  if(type==='speech')return [p(-.5,-.36),p(.5,-.36),p(.5,.22),p(.08,.22),p(-.25,.5),p(-.10,.22),p(-.5,.22)];
+  if(type==='lightning')return [p(-.08,-.5),p(.28,-.08),p(.08,-.08),p(.25,.5),p(-.28,.08),p(-.06,.08)];
+  if(type==='pie'){const pts=[[0,0]];for(let i=0;i<=36;i++){const a=-Math.PI*.30+(Math.PI*.95)*i/36;pts.push([Math.cos(a)*.48,Math.sin(a)*.48]);}return pts;}
+  if(type==='polygon')return (points||[]).map(q=>[Array.isArray(q)?q[0]:q.x,Array.isArray(q)?q[1]:q.y]);
+  return null;
+}
+function modernSignedArea(points){let area=0;for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length];area+=a[0]*b[1]-b[0]*a[1];}return area*.5;}
+function modernPointInTriangle(p,a,b,c){const sign=(p1,p2,p3)=>(p1[0]-p3[0])*(p2[1]-p3[1])-(p2[0]-p3[0])*(p1[1]-p3[1]),d1=sign(p,a,b),d2=sign(p,b,c),d3=sign(p,c,a),hasNeg=d1<-1e-8||d2<-1e-8||d3<-1e-8,hasPos=d1>1e-8||d2>1e-8||d3>1e-8;return !(hasNeg&&hasPos);}
+function modernTriangulate(points){
+  if(points.length<3)return [];
+  const result=[],remaining=points.map((_,i)=>i),orientation=modernSignedArea(points)>=0?1:-1;
+  let guard=0;
+  while(remaining.length>3&&guard++<points.length*points.length){let earFound=false;for(let i=0;i<remaining.length;i++){const ia=remaining[(i-1+remaining.length)%remaining.length],ib=remaining[i],ic=remaining[(i+1)%remaining.length],a=points[ia],b=points[ib],c=points[ic],cross=(b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]);if(cross*orientation<=1e-8)continue;let contains=false;for(const idx of remaining){if(idx===ia||idx===ib||idx===ic)continue;if(modernPointInTriangle(points[idx],a,b,c)){contains=true;break;}}if(contains)continue;result.push(ia,ib,ic);remaining.splice(i,1);earFound=true;break;}if(!earFound)break;}
+  if(remaining.length===3)result.push(remaining[0],remaining[1],remaining[2]);
+  if(result.length!==(points.length-2)*3){result.length=0;for(let i=1;i<points.length-1;i++)result.push(0,i,i+1);}
+  return result;
+}
+function modernPushPrimitive(target,{label,points,mode='GL_TRIANGLES',color='#000000',opacity=1,model,lineWidth=1}){
+  const clean=[];(points||[]).forEach(q=>{const p=[Number(q[0]),Number(q[1])];if(!clean.length||Math.hypot(p[0]-clean[clean.length-1][0],p[1]-clean[clean.length-1][1])>1e-7)clean.push(p);});if(clean.length>2&&Math.hypot(clean[0][0]-clean[clean.length-1][0],clean[0][1]-clean[clean.length-1][1])<1e-7)clean.pop();
+  const minimum=mode==='GL_TRIANGLES'?3:2;if(clean.length<minimum)return;
+  const indices=mode==='GL_TRIANGLES'?modernTriangulate(clean):clean.map((_,i)=>i);
+  target.push({label:modernCppComment(label),points:clean,indices,mode,color,opacity,model,lineWidth:Math.max(1,Number(lineWidth)||1)});
+}
+function modernPushFillAndOutline(target,spec,points){if(spec.fill&&spec.fill!=='transparent')modernPushPrimitive(target,{...spec,label:`${spec.label} fill`,points,mode:'GL_TRIANGLES',color:spec.fill,lineWidth:1});if((Number(spec.strokeWidth)||0)>0)modernPushPrimitive(target,{...spec,label:`${spec.label} outline`,points,mode:'GL_LINE_LOOP',color:spec.stroke||'#1f2937',lineWidth:spec.strokeWidth});}
+const MODERN_FONT_5X7={
+  'A':['01110','10001','10001','11111','10001','10001','10001'],'B':['11110','10001','10001','11110','10001','10001','11110'],'C':['01111','10000','10000','10000','10000','10000','01111'],'D':['11110','10001','10001','10001','10001','10001','11110'],'E':['11111','10000','10000','11110','10000','10000','11111'],'F':['11111','10000','10000','11110','10000','10000','10000'],'G':['01111','10000','10000','10111','10001','10001','01111'],'H':['10001','10001','10001','11111','10001','10001','10001'],'I':['11111','00100','00100','00100','00100','00100','11111'],'J':['00111','00010','00010','00010','10010','10010','01100'],'K':['10001','10010','10100','11000','10100','10010','10001'],'L':['10000','10000','10000','10000','10000','10000','11111'],'M':['10001','11011','10101','10101','10001','10001','10001'],'N':['10001','11001','10101','10011','10001','10001','10001'],'O':['01110','10001','10001','10001','10001','10001','01110'],'P':['11110','10001','10001','11110','10000','10000','10000'],'Q':['01110','10001','10001','10001','10101','10010','01101'],'R':['11110','10001','10001','11110','10100','10010','10001'],'S':['01111','10000','10000','01110','00001','00001','11110'],'T':['11111','00100','00100','00100','00100','00100','00100'],'U':['10001','10001','10001','10001','10001','10001','01110'],'V':['10001','10001','10001','10001','10001','01010','00100'],'W':['10001','10001','10001','10101','10101','10101','01010'],'X':['10001','10001','01010','00100','01010','10001','10001'],'Y':['10001','10001','01010','00100','00100','00100','00100'],'Z':['11111','00001','00010','00100','01000','10000','11111'],
+  '0':['01110','10001','10011','10101','11001','10001','01110'],'1':['00100','01100','00100','00100','00100','00100','01110'],'2':['01110','10001','00001','00010','00100','01000','11111'],'3':['11110','00001','00001','01110','00001','00001','11110'],'4':['00010','00110','01010','10010','11111','00010','00010'],'5':['11111','10000','10000','11110','00001','00001','11110'],'6':['01110','10000','10000','11110','10001','10001','01110'],'7':['11111','00001','00010','00100','01000','01000','01000'],'8':['01110','10001','10001','01110','10001','10001','01110'],'9':['01110','10001','10001','01111','00001','00001','01110'],'?':['01110','10001','00010','00100','00100','00000','00100'],'!':['00100','00100','00100','00100','00100','00000','00100'],'-':['00000','00000','00000','11111','00000','00000','00000'],'.':['00000','00000','00000','00000','00000','00110','00110'],' ':['00000','00000','00000','00000','00000','00000','00000']
+};
+function modernPushText(target,spec){const chars=String(spec.text||'Text').toUpperCase().slice(0,40),columns=Math.max(1,chars.length*6-1),cellW=.90/columns,cellH=.82/7,startX=-.45+cellW/2,startY=-.41+cellH/2;for(let ci=0;ci<chars.length;ci++){const glyph=MODERN_FONT_5X7[chars[ci]]||MODERN_FONT_5X7['?'];for(let row=0;row<7;row++)for(let col=0;col<5;col++)if(glyph[row][col]==='1'){const x=startX+(ci*6+col)*cellW,y=startY+row*cellH,cellModel=`${spec.model} * ${modernModel(x,y,0,cellW*.86,cellH*.86)}`;modernPushPrimitive(target,{label:`${spec.label} glyph ${ci+1}`,points:modernShapePoints('rectangle'),mode:'GL_TRIANGLES',color:spec.fill&&spec.fill!=='transparent'?spec.fill:spec.stroke,opacity:spec.opacity,model:cellModel});}}}
+function modernAddGeometry(target,spec){
+  const type=spec.type==='rect'?'rectangle':spec.type;
+  if(type==='text'){modernPushText(target,spec);return;}
+  if(type==='line'||type==='pen'){const pts=(spec.points&&spec.points.length?spec.points:[[-.5,-.5],[.5,.5]]).map(q=>[Array.isArray(q)?q[0]:q.x,Array.isArray(q)?q[1]:q.y]);modernPushPrimitive(target,{...spec,label:`${spec.label} stroke`,points:pts,mode:type==='line'?'GL_LINES':'GL_LINE_STRIP',color:spec.stroke||spec.fill,lineWidth:spec.strokeWidth||2});return;}
+  if(type==='arc'){const pts=[],radius=Math.min(spec.pixelW,spec.pixelH)*.5;for(let i=0;i<=48;i++){const a=Math.PI*1.1+Math.PI*.8*i/48;pts.push([Math.cos(a)*radius/spec.pixelW,Math.sin(a)*radius/spec.pixelH]);}modernPushPrimitive(target,{...spec,label:`${spec.label} arc`,points:pts,mode:'GL_LINE_STRIP',color:spec.stroke||spec.fill,lineWidth:spec.strokeWidth||2});return;}
+  if(type==='moon'){
+    const ellipse=modernEllipsePoints();
+    if(spec.fill&&spec.fill!=='transparent')modernPushPrimitive(target,{...spec,label:`${spec.label} crescent`,points:ellipse,color:spec.fill});
+    modernPushPrimitive(target,{...spec,label:`${spec.label} cutout`,points:ellipse,color:canvasBg,opacity:1,model:`${spec.model} * ${modernModel(.17,-.04,0,.80,.88)}`});
+    if(spec.strokeWidth>0)modernPushPrimitive(target,{...spec,label:`${spec.label} outline`,points:ellipse,mode:'GL_LINE_LOOP',color:spec.stroke,lineWidth:spec.strokeWidth});
+    return;
+  }
+  const base=modernShapePoints(type,spec.points,spec.pixelW,spec.pixelH);
+  if(base)modernPushFillAndOutline(target,spec,base);
+  if(type==='smiley'){
+    const eyeH=Math.max(4,spec.pixelW*.09)/Math.max(1,spec.pixelH),eye=modernEllipsePoints(28);
+    [-.18,.18].forEach((x,i)=>modernPushPrimitive(target,{...spec,label:`${spec.label} eye ${i+1}`,points:eye,color:spec.stroke,model:`${spec.model} * ${modernModel(x,-.12,0,.09,eyeH)}`}));
+    const mouth=[],ry=spec.pixelW*.22/Math.max(1,spec.pixelH);for(let i=0;i<=28;i++){const a=Math.PI*i/28;mouth.push([Math.cos(a)*.22,.02+Math.sin(a)*ry]);}modernPushPrimitive(target,{...spec,label:`${spec.label} smile`,points:mouth,mode:'GL_LINE_STRIP',color:spec.stroke,lineWidth:spec.strokeWidth||2});
+  } else if(type==='sun'){
+    const rays=[],r1=Math.min(spec.pixelW,spec.pixelH)*.36,r2=Math.min(spec.pixelW,spec.pixelH)*.50;for(let i=0;i<16;i++){const a=i*Math.PI/8;rays.push([Math.cos(a)*r1/spec.pixelW,Math.sin(a)*r1/spec.pixelH],[Math.cos(a)*r2/spec.pixelW,Math.sin(a)*r2/spec.pixelH]);}modernPushPrimitive(target,{...spec,label:`${spec.label} rays`,points:rays,mode:'GL_LINES',color:spec.stroke,lineWidth:spec.strokeWidth||2});
+  } else if(type==='nosymbol'){
+    modernPushPrimitive(target,{...spec,label:`${spec.label} slash`,points:[[-.34,-.34],[.34,.34]],mode:'GL_LINES',color:spec.stroke,lineWidth:Math.max(2,spec.strokeWidth||2)});
+  } else if(type==='cylinder'){
+    const rim=[];for(let i=0;i<40;i++){const a=i*Math.PI*2/40;rim.push([Math.cos(a)*.5,-.30+Math.sin(a)*.12]);}modernPushPrimitive(target,{...spec,label:`${spec.label} top rim`,points:rim,mode:'GL_LINE_LOOP',color:spec.stroke,lineWidth:spec.strokeWidth||1});
+  } else if(type==='cube'){
+    modernPushPrimitive(target,{...spec,label:`${spec.label} edges`,points:[[0,-.5],[0,.5],[-.42,-.25],[0,0],[.42,-.25],[0,0]],mode:'GL_LINES',color:spec.stroke,lineWidth:spec.strokeWidth||1});
+  }
+}
+function modernFlatten2D(list){const target=[];(list||[]).filter(o=>o&&o.visible!==false).forEach(o=>{if(o.type==='group'){const root=modernModel(o.x,o.y,o.rotation,1,1);(o.children||[]).forEach(c=>{const pixelW=Math.max(1,Math.abs((c.w||.1)*o.w)),pixelH=Math.max(1,Math.abs((c.h||.1)*o.h)),childStroke=c.strokeWidth==null?1:(c.strokeWidth<1?c.strokeWidth*Math.max(o.w,o.h):c.strokeWidth),model=`${root} * ${modernModel((c.x||0)*o.w,(c.y||0)*o.h,c.rotation||0,pixelW,pixelH)}`;modernAddGeometry(target,{label:`${o.name} / ${c.name||'Part'}`,type:c.type,pixelW,pixelH,fill:c.fill||o.fill,stroke:c.stroke||o.stroke,strokeWidth:childStroke,opacity:clamp((o.opacity??1)*(c.opacity??1),0,1),points:c.points,text:c.text,model});});}else{modernAddGeometry(target,{label:o.name||o.type,type:o.type,pixelW:Math.max(1,o.w),pixelH:Math.max(1,o.h),fill:o.fill,stroke:o.stroke,strokeWidth:o.strokeWidth,opacity:o.opacity??1,points:o.points,text:o.text,model:modernModel(o.x,o.y,o.rotation,o.w,o.h)});}});return target;}
+function modernFormatVertices(points){return points.map(p=>`                ${modernCppNumber(p[0])}, ${modernCppNumber(p[1])}, 0.0f`).join(',\n');}
+function modernFormatIndices(indices){const lines=[];for(let i=0;i<indices.length;i+=12)lines.push('                '+indices.slice(i,i+12).map(v=>String(v)+'u').join(', '));return lines.join(',\n');}
+function modernPrimitiveCode(item,indent='    '){return `${indent}// ${item.label}\n${indent}scene.push_back(\n${indent}{\n${indent}    createMesh(\n${indent}    {\n${modernFormatVertices(item.points)}\n${indent}    },\n${indent}    {\n${modernFormatIndices(item.indices)}\n${indent}    },\n${indent}    ${item.mode},\n${indent}    ${modernCppNumber(item.lineWidth,2)}),\n${indent}    ${item.model},\n${indent}    ${modernColorVector(item.color,item.opacity)}\n${indent}});`;}
+function modernSceneCode(items){return items.length?items.map(item=>modernPrimitiveCode(item)).join('\n\n'):'    // No visible objects have been added yet.';}
+function buildModern2DCode(full=true){
+  const list=full?objects.filter(o=>o.visible!==false):(selected()?[selected()]:[]);
+  if(!full&&!list.length)return '// No object selected.\n// Select an object or a layer to inspect its modern OpenGL code.\n';
+  const sceneItems=modernFlatten2D(list),sceneBody=modernSceneCode(sceneItems);
+  if(!full)return `// Selected object: ${modernCppComment(list[0].name)}\n// OpenGL 3.3 Core fragment generated for buildScene().\n// It uses the createMesh() and makeModelMatrix() helpers from the full code.\n\n${sceneBody}\n`;
+  const bg=hexToRgb01(canvasBg);
+  return `/*
+ * OpenGL Visual Designer Pro
+ * Generated for Safayet Ullah
+ * Computer Science & Engineering - Southeast University
+ * Target: OpenGL 3.3 Core, GLAD, GLFW and GLM
+ */
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
+
+const unsigned int SCR_WIDTH = 900;
+const unsigned int SCR_HEIGHT = 600;
+
+// Vertex Shader
+const char* vertexShaderSource = "#version 330 core\\n"
+"layout (location = 0) in vec3 aPos;\\n"
+"uniform mat4 transform;\\n"
+"void main()\\n"
+"{\\n"
+"    gl_Position = transform * vec4(aPos, 1.0);\\n"
+"}\\0";
+
+// Fragment Shader
+const char* fragmentShaderSource = "#version 330 core\\n"
+"out vec4 FragColor;\\n"
+"uniform vec4 objectColor;\\n"
+"void main()\\n"
+"{\\n"
+"    FragColor = objectColor;\\n"
+"}\\n\\0";
+
+struct Mesh
+{
+    unsigned int VAO = 0;
+    unsigned int VBO = 0;
+    unsigned int EBO = 0;
+    GLsizei indexCount = 0;
+    GLenum drawMode = GL_TRIANGLES;
+    float lineWidth = 1.0f;
+};
+
+struct SceneItem
+{
+    Mesh mesh;
+    glm::mat4 modelMatrix;
+    glm::vec4 color;
+};
+
+Mesh createMesh(const vector<float>& vertices,
+                const vector<unsigned int>& indices,
+                GLenum drawMode = GL_TRIANGLES,
+                float lineWidth = 1.0f)
+{
+    Mesh mesh;
+    mesh.indexCount = static_cast<GLsizei>(indices.size());
+    mesh.drawMode = drawMode;
+    mesh.lineWidth = lineWidth;
+
+    glGenVertexArrays(1, &mesh.VAO);
+    glGenBuffers(1, &mesh.VBO);
+    glGenBuffers(1, &mesh.EBO);
+
+    glBindVertexArray(mesh.VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, mesh.VBO);
+    glBufferData(GL_ARRAY_BUFFER,
+                 vertices.size() * sizeof(float),
+                 vertices.data(),
+                 GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 indices.size() * sizeof(unsigned int),
+                 indices.data(),
+                 GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                          3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    return mesh;
+}
+
+glm::mat4 makeModelMatrix(float translate_X,
+                          float translate_Y,
+                          float rotateAngle,
+                          float scale_X,
+                          float scale_Y)
+{
+    glm::mat4 identityMatrix = glm::mat4(1.0f);
+    glm::mat4 translationMatrix = glm::translate(
+        identityMatrix, glm::vec3(translate_X, translate_Y, 0.0f));
+    glm::mat4 rotationMatrix = glm::rotate(
+        identityMatrix, glm::radians(rotateAngle), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 scaleMatrix = glm::scale(
+        identityMatrix, glm::vec3(scale_X, scale_Y, 1.0f));
+    glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+    return modelMatrix;
+}
+
+void buildScene(vector<SceneItem>& scene)
+{
+${sceneBody}
+}
+
+void deleteScene(vector<SceneItem>& scene)
+{
+    for (SceneItem& item : scene)
+    {
+        glDeleteVertexArrays(1, &item.mesh.VAO);
+        glDeleteBuffers(1, &item.mesh.VBO);
+        glDeleteBuffers(1, &item.mesh.EBO);
+    }
+}
+
+int main()
+{
+    // Initialize GLFW
+    if (!glfwInit())
+    {
+        cout << "Failed to initialize GLFW" << endl;
+        return -1;
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+    // Create window
+    GLFWwindow* window = glfwCreateWindow(
+        SCR_WIDTH, SCR_HEIGHT,
+        "Safayet Ullah - OpenGL Visual Design",
+        NULL, NULL);
+    if (window == NULL)
+    {
+        cout << "Failed to create GLFW window" << endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    // Load OpenGL function pointers
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        cout << "Failed to initialize GLAD" << endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    // Build and compile the vertex shader
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\\n"
+             << infoLog << endl;
+    }
+
+    // Build and compile the fragment shader
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\\n"
+             << infoLog << endl;
+    }
+
+    // Link both shaders into one shader program
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\\n"
+             << infoLog << endl;
+    }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    // Create all VAOs, VBOs and EBOs before the render loop
+    vector<SceneItem> scene;
+    buildScene(scene);
+
+    const int transformLoc = glGetUniformLocation(shaderProgram, "transform");
+    const int colorLoc = glGetUniformLocation(shaderProgram, "objectColor");
+    const glm::mat4 projectionMatrix = glm::ortho(
+        0.0f, static_cast<float>(SCR_WIDTH),
+        static_cast<float>(SCR_HEIGHT), 0.0f,
+        -1.0f, 1.0f);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glfwSwapInterval(1);
+
+    // Render loop
+    while (!glfwWindowShouldClose(window))
+    {
+        processInput(window);
+
+        glClearColor(${modernCppNumber(bg[0],3)}, ${modernCppNumber(bg[1],3)}, ${modernCppNumber(bg[2],3)}, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shaderProgram);
+        for (const SceneItem& item : scene)
+        {
+            glm::mat4 transform = projectionMatrix * item.modelMatrix;
+            glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+                               glm::value_ptr(transform));
+            glUniform4fv(colorLoc, 1, glm::value_ptr(item.color));
+
+            glLineWidth(item.mesh.lineWidth);
+            glBindVertexArray(item.mesh.VAO);
+            glDrawElements(item.mesh.drawMode,
+                           item.mesh.indexCount,
+                           GL_UNSIGNED_INT,
+                           0);
+        }
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    // Cleanup
+    deleteScene(scene);
+    glDeleteProgram(shaderProgram);
+    glfwTerminate();
+    return 0;
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    (void)window;
+    glViewport(0, 0, width, height);
+}
+`;
+}
+generate2DCode=buildModern2DCode;
 function updateLiveCode(){ $('liveCode').value=mode==='2d'?generate2DCode(false):generate3DCode(false); }
 
 // ---------- 3D ----------
