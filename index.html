@@ -22,7 +22,7 @@ button{cursor:pointer}
 .icon-btn{width:34px;padding:0;justify-content:center}.tabsbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:#fff}.tab{height:36px;padding:0 17px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:800}.tab.active{background:#edf2ff;color:#244dbb}.tab.soon{position:relative}.soon-pill{font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:#7862c8;background:#f0ecff;border:1px solid #ded5ff;border-radius:999px;padding:2px 6px;margin-left:6px;vertical-align:middle}.toolbar{overflow-x:auto;padding-right:0}
 .toolbar{overflow-x:auto;padding-right:8px}.tool-label{font-size:12px;color:var(--muted)}
 .main{min-height:0;display:grid;grid-template-columns:260px minmax(0,1fr) 330px;transition:grid-template-columns .22s ease}.main.right-collapsed{grid-template-columns:260px minmax(0,1fr)}
-.sidebar{min-height:0;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:15px 13px}.rightbar{border-left:1px solid var(--line);border-right:0}.rightbar.collapsed{display:none}
+.sidebar{min-height:0;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:15px 13px}.rightbar{border-left:1px solid var(--line);border-right:0;padding:12px;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) minmax(110px,20%) minmax(190px,32%);gap:10px;background:#f7f9fd}.rightbar.collapsed{display:none}.rightbar>.panel{min-height:0;margin:0;display:flex;flex-direction:column}.rightbar>.panel>.panel-body{flex:1;min-height:0;overflow:auto}.rightbar>.panel:nth-child(2) .panel-body{padding:9px}.rightbar>.panel:nth-child(3) .panel-body{display:flex;min-height:0}.rightbar>.panel:nth-child(3) .codebox{height:100%;min-height:0;resize:none}
 .section{margin-bottom:16px}.section-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;color:#4c5c76;text-transform:uppercase;letter-spacing:.09em;margin:5px 3px 9px}.section-title .count{font-size:10px;color:var(--accent);background:#edf2ff;border:1px solid #d9e2ff;border-radius:999px;padding:2px 7px}
 .library-search{width:100%;height:34px;border:1px solid var(--line);border-radius:9px;background:#fbfcff;color:var(--text);padding:0 10px;margin:0 0 12px;outline:none}.library-search:focus{border-color:#8fa8ec;box-shadow:0 0 0 3px rgba(65,105,225,.10)}
 .tool-grid,.object-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tool-btn,.object-btn{min-height:58px;border:1px solid var(--line);border-radius:10px;background:#fbfcff;color:var(--text);display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column;font-size:11px;font-weight:700;transition:.16s ease}.tool-btn:hover,.object-btn:hover{border-color:#9bb0e8;background:#f1f5ff;transform:translateY(-1px)}.tool-btn.active{outline:2px solid rgba(65,105,225,.30);border-color:var(--accent);background:#edf2ff;color:#234bb6}.tool-btn .sym,.object-btn .sym{font-size:20px;line-height:1;color:#3d5ec4}.object-btn .sym{font-size:19px}.tool-btn[hidden],.object-btn[hidden]{display:none}
@@ -31,14 +31,16 @@ button{cursor:pointer}
 canvas{display:block}.canvas2d{width:900px;height:600px}.canvas3d{width:900px;height:600px;background:#0b1220}
 .corner-badge{position:absolute;right:8px;bottom:8px;background:rgba(20,33,58,.86);color:#e7efff;border:1px solid rgba(255,255,255,.24);border-radius:7px;padding:5px 8px;font-size:11px;pointer-events:none}
 .panel{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;margin-bottom:12px;box-shadow:0 5px 14px rgba(47,70,107,.05)}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;background:#f8faff;border-bottom:1px solid var(--line);font-weight:900;font-size:12px}.panel-body{padding:11px}
+.rightbar>.panel:last-child .panel-head{background:#eef3ff;color:#244dbb}
 .field{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:center;margin-bottom:8px}.field label{font-size:11px;color:var(--muted)}.field input,.field select,.field textarea{width:100%;height:32px;border:1px solid var(--line);border-radius:7px;background:#fbfcff;color:var(--text);padding:0 8px}.field input:focus,.field select:focus,.mini-field input:focus{outline:none;border-color:#8fa8ec;box-shadow:0 0 0 3px rgba(65,105,225,.10)}.field input[type=color]{padding:2px}.field textarea{height:70px;padding:8px;resize:vertical}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mini-field label{display:block;font-size:10px;color:var(--muted);margin-bottom:4px}.mini-field input{width:100%;height:31px;border:1px solid var(--line);border-radius:7px;background:#fbfcff;color:var(--text);padding:0 7px}
-.layers{display:flex;flex-direction:column;gap:5px;max-height:240px;overflow:auto}.layer{display:grid;grid-template-columns:22px 1fr 22px 22px;align-items:center;gap:5px;padding:7px;border:1px solid var(--line);border-radius:8px;background:#fbfcff;font-size:11px}.layer.selected{outline:2px solid rgba(65,105,225,.28);border-color:var(--accent);background:#eef3ff}.layer button{border:0;background:transparent;color:var(--muted);padding:0}.layer .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.codebox{width:100%;height:240px;border:1px solid var(--line);border-radius:8px;background:#09111f;color:#cce3ff;padding:9px;font:11px/1.45 Consolas,monospace;resize:vertical}
+.layers{display:flex;flex-direction:column;gap:5px;height:100%;max-height:none;overflow:auto}.layer{display:grid;grid-template-columns:22px 1fr 22px 22px;align-items:center;gap:5px;padding:7px;border:1px solid var(--line);border-radius:8px;background:#fbfcff;font-size:11px}.layer.selected{outline:2px solid rgba(65,105,225,.28);border-color:var(--accent);background:#eef3ff}.layer button{border:0;background:transparent;color:var(--muted);padding:0}.layer .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.codebox{width:100%;height:240px;border:1px solid var(--line);border-radius:8px;background:#09111f;color:#cce3ff;padding:9px;font:11px/1.5 Consolas,monospace;resize:vertical;white-space:pre;overflow:auto}
 .statusbar{display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#fff;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}
 .tiny{font-size:10px;line-height:1.45;color:var(--muted)}.notice{font-size:11px;color:var(--muted);line-height:1.5}.empty{padding:16px;text-align:center;color:var(--muted);font-size:11px}.kbd{border:1px solid var(--line);background:#f6f8fc;border-bottom-width:2px;border-radius:5px;padding:1px 5px;font-size:10px}.hidden{display:none!important}
-.modal-back{position:fixed;inset:0;background:rgba(19,31,52,.48);backdrop-filter:blur(4px);display:grid;place-items:center;z-index:50}.modal{width:min(900px,94vw);max-height:88vh;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 30px 80px rgba(30,52,91,.24)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}.modal-body{padding:16px}.modal textarea{width:100%;height:58vh;background:#101d32;color:#d4e7ff;border:1px solid #253856;border-radius:9px;padding:12px;font:12px/1.5 Consolas,monospace}.about-card{display:grid;grid-template-columns:90px 1fr;gap:14px}.avatar{width:90px;height:90px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:34px;font-weight:900;color:#fff}.toast{position:fixed;right:22px;bottom:50px;z-index:80;padding:11px 15px;border:1px solid #cdd9f3;border-radius:10px;background:#fff;color:#23365d;box-shadow:0 12px 30px rgba(38,62,105,.18);font-size:12px;font-weight:700;transform:translateY(12px);opacity:0;pointer-events:none;transition:.2s}.toast.show{transform:translateY(0);opacity:1}
+.modal-back{position:fixed;inset:0;background:rgba(19,31,52,.48);backdrop-filter:blur(4px);display:grid;place-items:center;z-index:50}.modal{width:min(900px,94vw);max-height:88vh;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 30px 80px rgba(30,52,91,.24)}.code-modal{width:min(1180px,96vw);height:min(82vh,760px);max-height:90vh;display:flex;flex-direction:column}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}.modal-body{padding:16px}.code-modal .modal-body{display:flex;flex:1;min-height:0}.modal textarea{width:100%;height:58vh;background:#101d32;color:#d4e7ff;border:1px solid #253856;border-radius:9px;padding:12px;font:12px/1.5 Consolas,monospace;white-space:pre;overflow:auto;resize:none;tab-size:4}.code-modal textarea{height:100%}.about-card{display:grid;grid-template-columns:90px 1fr;gap:14px}.avatar{width:90px;height:90px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:34px;font-weight:900;color:#fff}.toast{position:fixed;right:22px;bottom:50px;z-index:80;padding:11px 15px;border:1px solid #cdd9f3;border-radius:10px;background:#fff;color:#23365d;box-shadow:0 12px 30px rgba(38,62,105,.18);font-size:12px;font-weight:700;transform:translateY(12px);opacity:0;pointer-events:none;transition:.2s}.toast.show{transform:translateY(0);opacity:1}
 @media(max-width:1180px){.main{grid-template-columns:225px minmax(0,1fr) 300px}.main.right-collapsed{grid-template-columns:225px minmax(0,1fr)}.topbar{padding:0 14px}.brand h1{font-size:17px}}
+@media(max-height:720px){.rightbar{grid-template-rows:minmax(0,1fr) 105px minmax(180px,34%)}}
 @media(max-width:860px){.main{grid-template-columns:205px minmax(0,1fr) 285px}.main.right-collapsed{grid-template-columns:205px minmax(0,1fr)}.top-actions .btn:not(.primary){padding:0 8px}.brand{min-width:220px}.brand small{display:none}}
 </style>
 </head>
@@ -73,17 +75,30 @@ canvas{display:block}.canvas2d{width:900px;height:600px}.canvas3d{width:900px;he
   <main class="main">
     <aside class="sidebar">
       <div id="tools2d">
-        <div class="section"><div class="section-title">Drawing tools <span class="count">14</span></div><input id="librarySearch" class="library-search" type="search" placeholder="Search shapes and objects…" autocomplete="off" /><div class="tool-grid">
+        <div class="section"><div class="section-title">Word-style shapes <span class="count">40</span></div><input id="librarySearch" class="library-search" type="search" placeholder="Search shapes and objects…" autocomplete="off" /><div class="tool-grid">
           <button class="tool-btn active" data-tool="select"><span class="sym">↖</span>Select</button><button class="tool-btn" data-tool="rectangle"><span class="sym">▭</span>Rectangle</button>
-          <button class="tool-btn" data-tool="roundrect"><span class="sym">▢</span>Rounded</button><button class="tool-btn" data-tool="ellipse"><span class="sym">◯</span>Ellipse</button>
-          <button class="tool-btn" data-tool="triangle"><span class="sym">△</span>Triangle</button><button class="tool-btn" data-tool="diamond"><span class="sym">◇</span>Diamond</button>
-          <button class="tool-btn" data-tool="hexagon"><span class="sym">⬡</span>Hexagon</button><button class="tool-btn" data-tool="star"><span class="sym">★</span>Star</button>
-          <button class="tool-btn" data-tool="heart"><span class="sym">♥</span>Heart</button><button class="tool-btn" data-tool="line"><span class="sym">／</span>Line</button>
-          <button class="tool-btn" data-tool="arrow"><span class="sym">➜</span>Arrow</button><button class="tool-btn" data-tool="polygon"><span class="sym">⬠</span>Polygon</button>
+          <button class="tool-btn" data-tool="roundrect"><span class="sym">▢</span>Rounded rectangle</button><button class="tool-btn" data-tool="ellipse"><span class="sym">◯</span>Oval</button>
+          <button class="tool-btn" data-tool="triangle"><span class="sym">△</span>Triangle</button><button class="tool-btn" data-tool="righttriangle"><span class="sym">◢</span>Right triangle</button>
+          <button class="tool-btn" data-tool="diamond"><span class="sym">◇</span>Diamond</button><button class="tool-btn" data-tool="parallelogram"><span class="sym">▱</span>Parallelogram</button>
+          <button class="tool-btn" data-tool="trapezoid"><span class="sym">⏢</span>Trapezoid</button><button class="tool-btn" data-tool="pentagon"><span class="sym">⬠</span>Pentagon</button>
+          <button class="tool-btn" data-tool="hexagon"><span class="sym">⬡</span>Hexagon</button><button class="tool-btn" data-tool="octagon"><span class="sym">🛑</span>Octagon</button>
+          <button class="tool-btn" data-tool="star"><span class="sym">★</span>Star</button><button class="tool-btn" data-tool="burst"><span class="sym">✹</span>Explosion</button>
+          <button class="tool-btn" data-tool="heart"><span class="sym">♥</span>Heart</button><button class="tool-btn" data-tool="cloud"><span class="sym">☁</span>Cloud</button>
+          <button class="tool-btn" data-tool="cylinder"><span class="sym">▤</span>Cylinder</button><button class="tool-btn" data-tool="cube"><span class="sym">◇</span>Cube</button>
+          <button class="tool-btn" data-tool="cross"><span class="sym">✚</span>Cross</button><button class="tool-btn" data-tool="plus"><span class="sym">＋</span>Plus</button>
+          <button class="tool-btn" data-tool="minus"><span class="sym">−</span>Minus</button><button class="tool-btn" data-tool="line"><span class="sym">／</span>Line</button>
+          <button class="tool-btn" data-tool="arrow"><span class="sym">➜</span>Arrow</button><button class="tool-btn" data-tool="leftarrow"><span class="sym">←</span>Left arrow</button>
+          <button class="tool-btn" data-tool="rightarrow"><span class="sym">→</span>Right arrow</button><button class="tool-btn" data-tool="uparrow"><span class="sym">↑</span>Up arrow</button>
+          <button class="tool-btn" data-tool="downarrow"><span class="sym">↓</span>Down arrow</button><button class="tool-btn" data-tool="chevron"><span class="sym">❯</span>Chevron</button>
+          <button class="tool-btn" data-tool="callout"><span class="sym">▱</span>Callout</button><button class="tool-btn" data-tool="speech"><span class="sym">◌</span>Speech bubble</button>
+          <button class="tool-btn" data-tool="smiley"><span class="sym">☺</span>Smiley</button><button class="tool-btn" data-tool="lightning"><span class="sym">ϟ</span>Lightning</button>
+          <button class="tool-btn" data-tool="nosymbol"><span class="sym">⊘</span>No symbol</button><button class="tool-btn" data-tool="sun"><span class="sym">☀</span>Sun</button>
+          <button class="tool-btn" data-tool="moon"><span class="sym">◐</span>Moon</button><button class="tool-btn" data-tool="arc"><span class="sym">⌒</span>Arc</button>
+          <button class="tool-btn" data-tool="pie"><span class="sym">◔</span>Pie</button><button class="tool-btn" data-tool="polygon"><span class="sym">⬟</span>Free polygon</button>
           <button class="tool-btn" data-tool="pen"><span class="sym">✎</span>Freehand</button><button class="tool-btn" data-tool="text"><span class="sym">T</span>Text</button>
         </div></div>
         <div class="section"><div class="section-title">Smart objects <span class="count">14</span></div><div class="object-grid">
-          <button class="object-btn" data-template="house"><span class="sym">⌂</span>Modern House</button><button class="object-btn" data-template="tree"><span class="sym">♣</span>Tree</button>
+          <button class="object-btn" data-template="house"><span class="sym">⌂</span>Basic House</button><button class="object-btn" data-template="tree"><span class="sym">♣</span>Tree</button>
           <button class="object-btn" data-template="human"><span class="sym">♟</span>Human</button><button class="object-btn" data-template="robot"><span class="sym">▣</span>Robot</button>
           <button class="object-btn" data-template="car"><span class="sym">▰</span>Car</button><button class="object-btn" data-template="cloud"><span class="sym">☁</span>Cloud</button>
           <button class="object-btn" data-template="sun"><span class="sym">☀</span>Sun</button><button class="object-btn" data-template="road"><span class="sym">═</span>Road</button>
@@ -139,14 +154,14 @@ canvas{display:block}.canvas2d{width:900px;height:600px}.canvas3d{width:900px;he
       </div></div>
 
       <div class="panel"><div class="panel-head"><span>Layers</span><span class="row"><button class="btn icon-btn" id="layerUp">↑</button><button class="btn icon-btn" id="layerDown">↓</button></span></div><div class="panel-body"><div class="layers" id="layers"></div></div></div>
-      <div class="panel"><div class="panel-head"><span>Selected Object Code</span><button class="btn" id="copyCodeBtn">Copy</button></div><div class="panel-body"><textarea id="liveCode" class="codebox" spellcheck="false"></textarea></div></div>
+      <div class="panel"><div class="panel-head"><span>Selected Object Code</span><button class="btn" id="copyCodeBtn">Copy</button></div><div class="panel-body"><textarea id="liveCode" class="codebox" spellcheck="false" wrap="off" aria-label="Selected object OpenGL code"></textarea></div></div>
     </aside>
   </main>
 
   <footer class="statusbar"><span id="status">Ready</span><span>© 2026 Safayet Ullah · Department of Computer Science and Engineering · Southeast University</span></footer>
 </div>
 
-<div class="modal-back hidden" id="codeModal"><div class="modal"><div class="modal-head"><strong>Generated OpenGL Code</strong><div class="row"><button class="btn" id="copyModalCode">Copy</button><button class="btn" id="downloadCpp">Download .cpp</button><button class="btn danger" data-close="codeModal">Close</button></div></div><div class="modal-body"><textarea id="generatedCode" spellcheck="false"></textarea></div></div></div>
+<div class="modal-back hidden" id="codeModal"><div class="modal code-modal"><div class="modal-head"><strong>Full Generated OpenGL Code</strong><div class="row"><button class="btn" id="copyModalCode">Copy</button><button class="btn" id="downloadCpp">Download .cpp</button><button class="btn danger" data-close="codeModal">Close</button></div></div><div class="modal-body"><textarea id="generatedCode" spellcheck="false" wrap="off" aria-label="Full generated OpenGL code"></textarea></div></div></div>
 <div class="modal-back hidden" id="aboutModal"><div class="modal" style="width:min(650px,94vw)"><div class="modal-head"><strong>About Developer</strong><button class="btn danger" data-close="aboutModal">Close</button></div><div class="modal-body"><div class="about-card"><div class="avatar">SU</div><div><h2 style="margin:0 0 8px">Safayet Ullah</h2><p style="margin:0 0 5px">Department of Computer Science and Engineering</p><p style="margin:0 0 12px">Southeast University</p><p class="notice">OpenGL Visual Designer Pro is a browser-based visual editor for creating 2D GLUT drawings and basic 3D GLUT scenes without manually calculating every coordinate.</p><p class="notice">Version 1.0.0 · © 2026 Safayet Ullah. All rights reserved.</p></div></div></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -163,8 +178,9 @@ const rgba = (hex,a=1)=>{const n=parseInt(hex.slice(1),16);return `rgba(${(n>>16
 
 const canvas=$('canvas2d'), ctx=canvas.getContext('2d');
 const W=900,H=600;
+const DESIGN_VERSION=2;
 let mode='2d', tool='select', objects=[], selectedId=null, showGrid=true, snap=true, zoom=.9, canvasBg='#ffffff';
-let inspectorOpen=localStorage.getItem('oglInspectorOpen')!=='0';
+let inspectorOpen=localStorage.getItem('oglInspectorOpenV2')!=='0';
 let action=null,start=null,preview=null,polyDraft=[],history=[],future=[],clipboard=null;
 let scene3d=[],selected3d=null,camera={yaw:-35,pitch:22,dist:11,target:[0,0,0]},orbit=null;
 
@@ -174,8 +190,8 @@ function pushHistory(){history.push(deep({objects,scene3d}));if(history.length>6
 function restore(s){objects=deep(s.objects||[]);scene3d=deep(s.scene3d||[]);selectedId=null;selected3d=null;refreshAll();}
 function undo(){if(!history.length)return;future.push(deep({objects,scene3d}));restore(history.pop());}
 function redo(){if(!future.length)return;history.push(deep({objects,scene3d}));restore(future.pop());}
-function saveAuto(){localStorage.setItem('oglDesignerSafayet',JSON.stringify({objects,scene3d,mode,canvasBg}));}
-function loadAuto(){try{const s=JSON.parse(localStorage.getItem('oglDesignerSafayet'));if(s){objects=s.objects||[];scene3d=s.scene3d||[];mode='2d';canvasBg=s.canvasBg||'#ffffff';}}catch(e){mode='2d';}}
+function saveAuto(){localStorage.setItem('oglDesignerSafayet',JSON.stringify({designVersion:DESIGN_VERSION,objects,scene3d,mode,canvasBg}));}
+function loadAuto(){try{const s=JSON.parse(localStorage.getItem('oglDesignerSafayet'));if(s){objects=s.objects||[];if(s.designVersion!==DESIGN_VERSION)objects=objects.filter(o=>!(o.type==='group'&&(/modern house/i.test(o.name||'')||(o.name==='House'&&(o.children||[]).some(c=>c.name==='Sky')))));scene3d=s.scene3d||[];mode='2d';canvasBg=s.canvasBg||'#ffffff';}}catch(e){mode='2d';}}
 function showToast(message){const t=$('toast');t.textContent=message;t.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove('show'),2600);}
 
 function toCanvas(e){const r=canvas.getBoundingClientRect();let x=(e.clientX-r.left)*W/r.width,y=(e.clientY-r.top)*H/r.height;if(snap){x=Math.round(x/10)*10;y=Math.round(y/10)*10;}return{x:clamp(x,0,W),y:clamp(y,0,H)}}
@@ -186,30 +202,50 @@ function normalizePoints(points){const xs=points.map(p=>p.x),ys=points.map(p=>p.
 
 function drawGrid(){if(!showGrid)return;ctx.save();ctx.strokeStyle='rgba(30,55,90,.12)';ctx.lineWidth=1;for(let x=0;x<=W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<=H;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.strokeStyle='rgba(30,55,90,.22)';for(let x=0;x<=W;x+=100){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(let y=0;y<=H;y+=100){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.restore();}
 function pathShape(o){
+  const w=o.w,h=o.h,poly=pts=>{pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();};
   ctx.beginPath();
-  if(o.type==='rectangle')ctx.rect(-o.w/2,-o.h/2,o.w,o.h);
-  else if(o.type==='roundrect'){const r=Math.min(o.w,o.h,.18*Math.min(o.w,o.h));if(ctx.roundRect)ctx.roundRect(-o.w/2,-o.h/2,o.w,o.h,r);else ctx.rect(-o.w/2,-o.h/2,o.w,o.h);}
-  else if(o.type==='ellipse')ctx.ellipse(0,0,o.w/2,o.h/2,0,0,Math.PI*2);
-  else if(o.type==='triangle'){ctx.moveTo(0,-o.h/2);ctx.lineTo(-o.w/2,o.h/2);ctx.lineTo(o.w/2,o.h/2);ctx.closePath();}
-  else if(o.type==='diamond'){ctx.moveTo(0,-o.h/2);ctx.lineTo(o.w/2,0);ctx.lineTo(0,o.h/2);ctx.lineTo(-o.w/2,0);ctx.closePath();}
-  else if(o.type==='hexagon'){for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI/3;const p={x:Math.cos(a)*o.w/2,y:Math.sin(a)*o.h/2};i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}ctx.closePath();}
-  else if(o.type==='star'){for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?0.42:0.5,p={x:Math.cos(a)*o.w*r,y:Math.sin(a)*o.h*r};i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}ctx.closePath();}
-  else if(o.type==='heart'){ctx.moveTo(0,o.h*.42);ctx.bezierCurveTo(-o.w*.72,-o.h*.05,-o.w*.48,-o.h*.52,0,-o.h*.22);ctx.bezierCurveTo(o.w*.48,-o.h*.52,o.w*.72,-o.h*.05,0,o.h*.42);ctx.closePath();}
-  else if(o.type==='arrow'){ctx.moveTo(-o.w/2,-o.h*.18);ctx.lineTo(o.w*.10,-o.h*.18);ctx.lineTo(o.w*.10,-o.h*.45);ctx.lineTo(o.w/2,0);ctx.lineTo(o.w*.10,o.h*.45);ctx.lineTo(o.w*.10,o.h*.18);ctx.lineTo(-o.w/2,o.h*.18);ctx.closePath();}
-  else if(o.type==='polygon'){const pts=o.points||[];if(pts.length){ctx.moveTo(pts[0].x*o.w,pts[0].y*o.h);pts.slice(1).forEach(p=>ctx.lineTo(p.x*o.w,p.y*o.h));ctx.closePath();}}
+  if(o.type==='rectangle')ctx.rect(-w/2,-h/2,w,h);
+  else if(o.type==='roundrect'){const r=Math.min(w,h,.18*Math.min(w,h));if(ctx.roundRect)ctx.roundRect(-w/2,-h/2,w,h,r);else ctx.rect(-w/2,-h/2,w,h);}
+  else if(o.type==='ellipse'||o.type==='smiley'||o.type==='sun')ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2);
+  else if(o.type==='triangle')poly([[0,-h/2],[-w/2,h/2],[w/2,h/2]]);
+  else if(o.type==='righttriangle')poly([[-w/2,-h/2],[w/2,h/2],[-w/2,h/2]]);
+  else if(o.type==='diamond')poly([[0,-h/2],[w/2,0],[0,h/2],[-w/2,0]]);
+  else if(o.type==='parallelogram')poly([[-w*.38,-h/2],[w/2,-h/2],[w*.38,h/2],[-w/2,h/2]]);
+  else if(o.type==='trapezoid')poly([[-w*.38,-h/2],[w*.38,-h/2],[w/2,h/2],[-w/2,h/2]]);
+  else if(['pentagon','hexagon','octagon'].includes(o.type)){const sides={pentagon:5,hexagon:6,octagon:8}[o.type];const pts=[];for(let i=0;i<sides;i++){const a=-Math.PI/2+i*Math.PI*2/sides;pts.push([Math.cos(a)*w/2,Math.sin(a)*h/2]);}poly(pts);}
+  else if(o.type==='star'||o.type==='burst'){const n=o.type==='star'?10:20,inner=o.type==='star'?.42:.32,pts=[];for(let i=0;i<n;i++){const a=-Math.PI/2+i*Math.PI*2/n,r=i%2?inner:.5;pts.push([Math.cos(a)*w*r,Math.sin(a)*h*r]);}poly(pts);}
+  else if(o.type==='heart'){ctx.moveTo(0,h*.42);ctx.bezierCurveTo(-w*.72,-h*.05,-w*.48,-h*.52,0,-h*.22);ctx.bezierCurveTo(w*.48,-h*.52,w*.72,-h*.05,0,h*.42);ctx.closePath();}
+  else if(o.type==='cloud'){ctx.moveTo(-w*.46,h*.20);ctx.lineTo(w*.46,h*.20);ctx.arc(w*.30,h*.03,w*.22,Math.PI*.15,Math.PI*1.15);ctx.arc(w*.06,-h*.10,w*.25,Math.PI*1.05,Math.PI*2.05);ctx.arc(-w*.22,h*.01,w*.20,Math.PI*1.05,Math.PI*2.05);ctx.arc(-w*.40,h*.12,w*.14,Math.PI*1.05,Math.PI*2.05);ctx.closePath();}
+  else if(o.type==='cylinder'){ctx.moveTo(-w/2,-h*.30);ctx.lineTo(-w/2,h*.30);ctx.arc(0,h*.30,w/2,Math.PI,0);ctx.lineTo(w/2,-h*.30);ctx.arc(0,-h*.30,w/2,0,Math.PI);ctx.closePath();}
+  else if(o.type==='cube')poly([[-w*.42,-h*.25],[0,-h/2],[w*.42,-h*.25],[w*.42,h*.28],[0,h/2],[-w*.42,h*.28]]);
+  else if(['cross','plus'].includes(o.type))poly([[-w*.18,-h/2],[w*.18,-h/2],[w*.18,-h*.18],[w/2,-h*.18],[w/2,h*.18],[w*.18,h*.18],[w*.18,h/2],[-w*.18,h/2],[-w*.18,h*.18],[-w/2,h*.18],[-w/2,-h*.18],[-w*.18,-h*.18]]);
+  else if(o.type==='minus')ctx.rect(-w/2,-h*.13,w,h*.26);
+  else if(['arrow','rightarrow'].includes(o.type))poly([[-w/2,-h*.16],[w*.08,-h*.16],[w*.08,-h*.44],[w/2,0],[w*.08,h*.44],[w*.08,h*.16],[-w/2,h*.16]]);
+  else if(o.type==='leftarrow')poly([[w/2,-h*.16],[-w*.08,-h*.16],[-w*.08,-h*.44],[-w/2,0],[-w*.08,h*.44],[-w*.08,h*.16],[w/2,h*.16]]);
+  else if(o.type==='uparrow')poly([[-w*.16,h/2],[-w*.16,-h*.08],[-w*.44,-h*.08],[0,-h/2],[w*.44,-h*.08],[w*.16,-h*.08],[w*.16,h/2]]);
+  else if(o.type==='downarrow')poly([[-w*.16,-h/2],[-w*.16,h*.08],[-w*.44,h*.08],[0,h/2],[w*.44,h*.08],[w*.16,h*.08],[w*.16,-h/2]]);
+  else if(o.type==='chevron')poly([[-w/2,-h/2],[-w*.12,-h/2],[w/2,0],[-w*.12,h/2],[-w/2,h/2],[w*.08,0]]);
+  else if(o.type==='callout')poly([[-w/2,-h/2],[w/2,-h/2],[w/2,h*.22],[w*.10,h*.22],[-w*.18,h/2],[-w*.12,h*.22],[-w/2,h*.22]]);
+  else if(o.type==='speech'){const r=Math.min(w,h)*.12;if(ctx.roundRect)ctx.roundRect(-w/2,-h/2,w,h*.72,r);else ctx.rect(-w/2,-h/2,w,h*.72);ctx.moveTo(-w*.10,h*.22);ctx.lineTo(-w*.25,h*.50);ctx.lineTo(w*.08,h*.22);ctx.closePath();}
+  else if(o.type==='lightning')poly([[-w*.08,-h/2],[w*.28,-h*.08],[w*.08,-h*.08],[w*.25,h/2],[-w*.28,h*.08],[-w*.06,h*.08]]);
+  else if(o.type==='nosymbol'){ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2);}
+  else if(o.type==='moon'){ctx.moveTo(w*.18,-h/2);ctx.arc(-w*.06,0,h*.50,rad(-60),rad(60),true);ctx.arc(w*.08,0,h*.42,rad(120),rad(-120),false);ctx.closePath();}
+  else if(o.type==='arc'){ctx.arc(0,0,Math.min(w,h)/2,Math.PI*1.1,Math.PI*1.9);}
+  else if(o.type==='pie'){ctx.moveTo(0,0);ctx.arc(0,0,Math.min(w,h)/2,-Math.PI*.30,Math.PI*.65);ctx.closePath();}
+  else if(o.type==='polygon'){const pts=o.points||[];if(pts.length)poly(pts.map(p=>[p.x*w,p.y*h]));}
 }
 function drawChild(c,w,h){ctx.save();ctx.translate(c.x*w,c.y*h);if(c.rotation)ctx.rotate(rad(c.rotation));ctx.globalAlpha*=c.opacity??1;ctx.fillStyle=c.fill||'#4169e1';ctx.strokeStyle=c.stroke||c.fill||'#1f2937';ctx.lineWidth=(c.strokeWidth??1)<1?(c.strokeWidth??1)*Math.max(w,h):(c.strokeWidth??1);const cw=c.w*w,ch=c.h*h;ctx.beginPath();if(c.type==='rect'||c.type==='rectangle')ctx.rect(-cw/2,-ch/2,cw,ch);else if(c.type==='roundrect'){const r=Math.min(cw,ch,.18*Math.min(cw,ch));if(ctx.roundRect)ctx.roundRect(-cw/2,-ch/2,cw,ch,r);else ctx.rect(-cw/2,-ch/2,cw,ch);}else if(c.type==='ellipse')ctx.ellipse(0,0,cw/2,ch/2,0,0,Math.PI*2);else if(c.type==='triangle'){ctx.moveTo(0,-ch/2);ctx.lineTo(-cw/2,ch/2);ctx.lineTo(cw/2,ch/2);ctx.closePath();}else if(c.type==='diamond'){ctx.moveTo(0,-ch/2);ctx.lineTo(cw/2,0);ctx.lineTo(0,ch/2);ctx.lineTo(-cw/2,0);ctx.closePath();}else if(c.type==='line'){ctx.moveTo(-cw/2,-ch/2);ctx.lineTo(cw/2,ch/2);}else if(c.type==='polygon'){const pts=c.points||[];if(pts.length){ctx.moveTo(pts[0][0]*cw,pts[0][1]*ch);pts.slice(1).forEach(p=>ctx.lineTo(p[0]*cw,p[1]*ch));ctx.closePath();}}if(c.type==='line')ctx.stroke();else{ctx.fill();if((c.strokeWidth??0)>0)ctx.stroke();}ctx.restore();}
 function drawObject(o,selected=false){if(!o.visible)return;ctx.save();ctx.translate(o.x,o.y);ctx.rotate(rad(o.rotation));ctx.globalAlpha=o.opacity;ctx.fillStyle=o.fill;ctx.strokeStyle=o.stroke;ctx.lineWidth=o.strokeWidth;
-  if(o.type==='line'||o.type==='pen'){const pts=o.points||[];ctx.beginPath();if(pts.length){ctx.moveTo(pts[0].x*o.w,pts[0].y*o.h);pts.slice(1).forEach(p=>ctx.lineTo(p.x*o.w,p.y*o.h));}ctx.stroke();}
+  if(o.type==='line'||o.type==='pen'||o.type==='arc'){const pts=o.points||[];if(o.type==='arc')pathShape(o);else{ctx.beginPath();if(pts.length){ctx.moveTo(pts[0].x*o.w,pts[0].y*o.h);pts.slice(1).forEach(p=>ctx.lineTo(p.x*o.w,p.y*o.h));}}ctx.stroke();}
   else if(o.type==='text'){ctx.fillStyle=o.fill;ctx.font=`700 ${Math.max(12,o.h)}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.text,0,0);}
   else if(o.type==='group'){(o.children||[]).forEach(c=>drawChild(c,o.w,o.h));}
-  else {pathShape(o);ctx.fill();if(o.strokeWidth>0)ctx.stroke();}
+  else {pathShape(o);ctx.fill();if(o.strokeWidth>0)ctx.stroke();if(o.type==='nosymbol'){ctx.beginPath();ctx.moveTo(-o.w*.34,-o.h*.34);ctx.lineTo(o.w*.34,o.h*.34);ctx.stroke();}if(o.type==='sun'){ctx.beginPath();for(let i=0;i<16;i++){const a=i*Math.PI/8,r1=Math.min(o.w,o.h)*.36,r2=Math.min(o.w,o.h)*.50;ctx.moveTo(Math.cos(a)*r1,Math.sin(a)*r1);ctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2);}ctx.stroke();}if(o.type==='smiley'){ctx.fillStyle=o.stroke;ctx.beginPath();ctx.arc(-o.w*.18,-o.h*.12,Math.max(2,o.w*.045),0,Math.PI*2);ctx.arc(o.w*.18,-o.h*.12,Math.max(2,o.w*.045),0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(0,o.h*.02,o.w*.22,0,Math.PI);ctx.stroke();}}
   ctx.restore();if(selected)drawSelection(o);
 }
 function drawSelection(o){const corners=[[-o.w/2,-o.h/2],[o.w/2,-o.h/2],[o.w/2,o.h/2],[-o.w/2,o.h/2]].map(([x,y])=>worldPoint(o,{x,y}));ctx.save();ctx.strokeStyle='#2f78ff';ctx.lineWidth=1.5;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(corners[0].x,corners[0].y);corners.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.stroke();ctx.setLineDash([]);corners.forEach(p=>{ctx.fillStyle='#fff';ctx.strokeStyle='#2f78ff';ctx.lineWidth=2;ctx.fillRect(p.x-5,p.y-5,10,10);ctx.strokeRect(p.x-5,p.y-5,10,10);});const top=worldPoint(o,{x:0,y:-o.h/2}),rotp=worldPoint(o,{x:0,y:-o.h/2-32});ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(rotp.x,rotp.y);ctx.stroke();ctx.beginPath();ctx.arc(rotp.x,rotp.y,6,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.stroke();ctx.restore();}
 function redraw2d(exporting=false){ctx.clearRect(0,0,W,H);ctx.fillStyle=canvasBg;ctx.fillRect(0,0,W,H);drawGrid();objects.forEach(o=>drawObject(o,!exporting&&o.id===selectedId));if(polyDraft.length&&!exporting){ctx.save();ctx.strokeStyle='#5b8cff';ctx.fillStyle='#5b8cff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(polyDraft[0].x,polyDraft[0].y);polyDraft.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));if(preview)ctx.lineTo(preview.x,preview.y);ctx.stroke();polyDraft.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();});ctx.restore();}if(action?.kind==='draw'&&preview&&!exporting){const sx=start.x,sy=start.y,dx=preview.x-sx,dy=preview.y-sy;const o=makeObj(tool,(sx+preview.x)/2,(sy+preview.y)/2,dx,dy,{fill:'#5b8cff'});if(tool==='line')o.points=[{x:-.5*Math.sign(dx||1),y:-.5*Math.sign(dy||1)},{x:.5*Math.sign(dx||1),y:.5*Math.sign(dy||1)}];drawObject(o,false);}}
 
-function hit(o,p){if(!o.visible||o.locked)return false;const l=localPoint(o,p);if(o.type==='ellipse')return (l.x*l.x)/(o.w*o.w/4)+(l.y*l.y)/(o.h*o.h/4)<=1;if(['triangle','polygon','group','rectangle','roundrect','diamond','hexagon','star','heart','arrow','text'].includes(o.type))return Math.abs(l.x)<=o.w/2&&Math.abs(l.y)<=o.h/2;if(o.type==='line'||o.type==='pen')return Math.abs(l.x)<=o.w/2+8&&Math.abs(l.y)<=o.h/2+8;return false;}
+function hit(o,p){if(!o.visible||o.locked)return false;const l=localPoint(o,p);if(['ellipse','smiley','sun','nosymbol'].includes(o.type))return (l.x*l.x)/(o.w*o.w/4)+(l.y*l.y)/(o.h*o.h/4)<=1;if(['triangle','righttriangle','polygon','group','rectangle','roundrect','diamond','parallelogram','trapezoid','pentagon','hexagon','octagon','star','burst','heart','cloud','cylinder','cube','cross','plus','minus','arrow','leftarrow','rightarrow','uparrow','downarrow','chevron','callout','speech','lightning','moon','pie','text'].includes(o.type))return Math.abs(l.x)<=o.w/2&&Math.abs(l.y)<=o.h/2;if(o.type==='line'||o.type==='pen'||o.type==='arc')return Math.abs(l.x)<=o.w/2+8&&Math.abs(l.y)<=o.h/2+8;return false;}
 function handleAt(o,p){const local=localPoint(o,p),handles=[{n:'nw',x:-o.w/2,y:-o.h/2},{n:'ne',x:o.w/2,y:-o.h/2},{n:'se',x:o.w/2,y:o.h/2},{n:'sw',x:-o.w/2,y:o.h/2}];for(const h of handles)if(Math.hypot(local.x-h.x,local.y-h.y)<10)return h.n;if(Math.hypot(local.x,local.y+o.h/2+32)<10)return'rotate';return null;}
 
 canvas.addEventListener('mousedown',e=>{const p=toCanvas(e);if(tool==='polygon'){if(e.button===2){e.preventDefault();finishPolygon();return;}if(e.button!==0)return;if(polyDraft.length>=3&&Math.hypot(p.x-polyDraft[0].x,p.y-polyDraft[0].y)<12){finishPolygon();return;}polyDraft.push(p);preview=p;redraw2d();return;}if(e.button!==0)return;if(tool==='text'){pushHistory();const text=prompt('Enter text:','OpenGL');if(text){const o=makeObj('text',p.x,p.y,180,32,{fill:'#1f2937',text});objects.push(o);selectedId=o.id;changed();}return;}if(tool==='select'){const o=selected();if(o){const h=handleAt(o,p);if(h){pushHistory();action={kind:h==='rotate'?'rotate':'resize',handle:h,start:deep(o),mouse:p};return;}}for(let i=objects.length-1;i>=0;i--){if(hit(objects[i],p)){selectedId=objects[i].id;pushHistory();action={kind:'move',mouse:p,start:deep(objects[i])};refreshAll();return;}}selectedId=null;refreshAll();return;}pushHistory();action={kind:tool==='pen'?'pen':'draw'};start=p;preview=p;if(tool==='pen')action.points=[p];});
@@ -261,69 +297,44 @@ function template(name){
   const child=(type,x,y,w,h,fill,label,extra={})=>({type,x,y,w,h,fill,stroke:extra.stroke??'#26354d',strokeWidth:extra.strokeWidth??.006,opacity:extra.opacity??1,name:label,...extra});
   let children=[],w=240,h=180,title=name;
   if(name==='house'){
-    w=760;h=500;title='Modern House';
-    const wall='#f2d7a2', trim='#f7ead0', roof='#172737', roofHi='#25384b', wood='#70401f', glass='#58add9';
+    w=460;h=360;title='Basic House';
+    const wall='#f2d3a2', trim='#fff7e8', roof='#27445c', roofEdge='#172d42', wood='#754322', glass='#65b9e6';
     children=[
-      child('rect',0,0,1,1,'#8dccf1','Sky',{strokeWidth:0}),
-      child('ellipse',-.39,-.35,.105,.105,'#ffc13d','Sun',{stroke:'#e3a126',strokeWidth:.008}),
-      child('ellipse',-.28,-.35,.23,.075,'#ffffff','Left cloud',{stroke:'#dce8f3',strokeWidth:.004,opacity:.88}),
-      child('ellipse',.34,-.36,.24,.08,'#ffffff','Right cloud',{stroke:'#dce8f3',strokeWidth:.004,opacity:.88}),
-      child('polygon',-.29,-.15,.49,.28,'#6d9fc0','Distant mountains',{points:[[-.5,.5],[-.2,-.5],[.1,.5],[.34,-.25],[.5,.5]]}),
-      child('rect',0,.27,1,.46,'#68ad3e','Garden ground',{strokeWidth:0}),
-      child('rect',0,.46,1,.12,'#c5c7c7','Sidewalk',{strokeWidth:0}),
-      child('rect',0,.57,1,.18,'#36414d','Road',{strokeWidth:0}),
-      child('rect',-.28,.09,.53,.47,wall,'Main house walls'),
-      child('rect',.31,.24,.34,.31,'#e9c88d','Garage wing'),
-      child('rect',-.28,.31,.53,.05,'#695646','Stone foundation',{strokeWidth:0}),
-      child('rect',.31,.39,.34,.05,'#695646','Garage foundation',{strokeWidth:0}),
-      child('polygon',-.28,-.22,.62,.37,roof,'Main roof',{points:[[-.52,.5],[0,-.5],[.52,.5]]}),
-      child('polygon',-.28,-.19,.55,.28,trim,'Gable face',{points:[[-.5,.5],[0,-.5],[.5,.5]]}),
-      child('polygon',.31,.03,.42,.29,roof,'Garage roof',{points:[[-.5,.5],[0,-.5],[.5,.5]]}),
-      child('polygon',-.28,-.22,.62,.035,roofHi,'Roof edge',{points:[[-.52,.5],[.52,.5],[.48,-.5],[-.48,-.5]]}),
-      child('rect',.16,-.35,.09,.20,'#5b3825','Brick chimney'),
-      child('rect',.16,-.47,.12,.035,'#37241b','Chimney cap',{strokeWidth:0}),
-      child('rect',-.17,.00,.15,.14,glass,'Upper left window'),
-      child('rect',.10,.00,.15,.14,glass,'Upper right window'),
-      child('rect',-.17,.22,.19,.15,glass,'Lower window'),
-      child('rect',-.17,.00,.018,.14,roof,'Upper left mullion',{strokeWidth:0}),
-      child('rect',-.17,.055,.15,.016,roof,'Upper left crossbar',{strokeWidth:0}),
-      child('rect',.10,.00,.018,.14,roof,'Upper right mullion',{strokeWidth:0}),
-      child('rect',.10,.055,.15,.016,roof,'Upper right crossbar',{strokeWidth:0}),
-      child('rect',-.17,.22,.022,.15,roof,'Lower mullion',{strokeWidth:0}),
-      child('rect',-.17,.285,.19,.018,roof,'Lower crossbar',{strokeWidth:0}),
-      child('ellipse',-.01,-.20,.085,.085,glass,'Round attic window',{stroke:roof,strokeWidth:.012}),
-      child('rect',-.01,-.285,.012,.17,roof,'Attic vertical bar',{strokeWidth:0}),
-      child('rect',-.095,-.20,.17,.012,roof,'Attic horizontal bar',{strokeWidth:0}),
-      child('polygon',-.03,.125,.21,.13,roof,'Porch roof',{points:[[-.5,.5],[0,-.5],[.5,.5]]}),
-      child('rect',-.03,.18,.14,.27,wood,'Front door',{stroke:'#382216',strokeWidth:.009}),
-      child('rect',-.03,.18,.10,.08,'#8e5a31','Door upper panel',{stroke:'#4b2b18',strokeWidth:.006}),
-      child('rect',-.03,.29,.10,.08,'#8e5a31','Door lower panel',{stroke:'#4b2b18',strokeWidth:.006}),
-      child('ellipse',.025,.21,.012,.012,'#f3bd3b','Door handle',{strokeWidth:0}),
-      child('rect',-.125,.18,.022,.28,trim,'Left porch pillar',{stroke:'#d5bd94',strokeWidth:.004}),
-      child('rect',.065,.18,.022,.28,trim,'Right porch pillar',{stroke:'#d5bd94',strokeWidth:.004}),
-      child('rect',-.14,.04,.27,.035,trim,'Porch header',{stroke:'#d5bd94',strokeWidth:.004}),
-      child('rect',-.13,.355,.26,.025,trim,'Porch step top',{stroke:'#c8b28d',strokeWidth:.004}),
-      child('rect',-.15,.385,.30,.025,'#c7b28e','Porch step lower',{stroke:'#a99473',strokeWidth:.004}),
-      child('rect',.30,.24,.30,.025,'#4c2b19','Garage door frame',{strokeWidth:0}),
-      child('rect',.31,.25,.28,.25,'#754522','Garage door',{stroke:'#3d2416',strokeWidth:.009}),
-      child('rect',.31,.285,.28,.010,'#432717','Garage slat 1',{strokeWidth:0}),
-      child('rect',.31,.335,.28,.010,'#432717','Garage slat 2',{strokeWidth:0}),
-      child('rect',.31,.385,.28,.010,'#432717','Garage slat 3',{strokeWidth:0}),
-      child('rect',.31,.435,.28,.010,'#432717','Garage slat 4',{strokeWidth:0}),
-      child('polygon',-.03,.49,.16,.18,'#d5bc91','Front path',{points:[[-.5,-.5],[.5,-.5],[.9,.5],[-.9,.5]],stroke:'#bba47e',strokeWidth:.004}),
-      child('rect',-.86,.53,.012,.15,'#f6f1e4','Left fence post',{strokeWidth:0}),
-      child('rect',-.76,.53,.012,.15,'#f6f1e4','Left fence post 2',{strokeWidth:0}),
-      child('rect',.76,.53,.012,.15,'#f6f1e4','Right fence post',{strokeWidth:0}),
-      child('rect',.86,.53,.012,.15,'#f6f1e4','Right fence post 2',{strokeWidth:0}),
-      child('ellipse',-.54,.28,.15,.10,'#2e8d35','Left bush',{strokeWidth:0}),
-      child('ellipse',.67,.28,.14,.10,'#2e8d35','Right bush',{strokeWidth:0}),
-      child('rect',-.64,.10,.035,.24,'#75401d','Left tree trunk',{strokeWidth:0}),
-      child('ellipse',-.64,-.03,.17,.18,'#2f8b36','Left tree canopy',{strokeWidth:0}),
-      child('rect',.71,.13,.028,.21,'#75401d','Right tree trunk',{strokeWidth:0}),
-      child('ellipse',.71,-.02,.13,.17,'#348e3b','Right tree canopy',{strokeWidth:0}),
-      child('rect',-.55,.575,.12,.012,'#ffffff','Road marking left',{strokeWidth:0}),
-      child('rect',-.12,.575,.12,.012,'#ffffff','Road marking center',{strokeWidth:0}),
-      child('rect',.31,.575,.12,.012,'#ffffff','Road marking right',{strokeWidth:0})
+      child('rect',0,.43,.90,.13,'#83b84f','Lawn',{strokeWidth:0}),
+      child('ellipse',0,.45,.78,.10,'#a9b7aa','Ground shadow',{strokeWidth:0,opacity:.45}),
+      child('polygon',0,.44,.18,.22,'#d8bd8e','Walkway',{points:[[-.5,-.5],[.5,-.5],[.85,.5],[-.85,.5]],stroke:'#b89b70',strokeWidth:.004}),
+      child('rect',0,.10,.68,.55,wall,'House wall',{stroke:'#b88455',strokeWidth:.008}),
+      child('rect',0,.36,.70,.07,'#a17856','Stone base',{stroke:'#795640',strokeWidth:.004}),
+      child('polygon',0,-.23,.82,.39,roof,'Main roof',{points:[[-.54,.5],[0,-.5],[.54,.5]],stroke:roofEdge,strokeWidth:.012}),
+      child('polygon',0,-.20,.68,.30,'#f7dfb2','Gable face',{points:[[-.5,.5],[0,-.5],[.5,.5]],stroke:'#d0a875',strokeWidth:.004}),
+      child('polygon',0,-.34,.88,.045,roofEdge,'Roof trim',{points:[[-.5,.5],[.5,.5],[.46,-.5],[-.46,-.5]],strokeWidth:0}),
+      child('rect',.24,-.39,.08,.19,'#805638','Chimney',{stroke:'#533924',strokeWidth:.006}),
+      child('rect',.24,-.50,.12,.035,'#4d3426','Chimney cap',{strokeWidth:0}),
+      child('rect',-.20,-.01,.16,.16,glass,'Left window',{stroke:'#203a52',strokeWidth:.012}),
+      child('rect',.20,-.01,.16,.16,glass,'Right window',{stroke:'#203a52',strokeWidth:.012}),
+      child('rect',-.20,-.01,.018,.16,roofEdge,'Left window mullion',{strokeWidth:0}),
+      child('rect',-.20,-.01,.16,.018,roofEdge,'Left window crossbar',{strokeWidth:0}),
+      child('rect',.20,-.01,.018,.16,roofEdge,'Right window mullion',{strokeWidth:0}),
+      child('rect',.20,-.01,.16,.018,roofEdge,'Right window crossbar',{strokeWidth:0}),
+      child('rect',-.20,-.04,.10,.018,'#d7f1ff','Left window reflection',{strokeWidth:0}),
+      child('rect',.20,-.04,.10,.018,'#d7f1ff','Right window reflection',{strokeWidth:0}),
+      child('ellipse',0,-.22,.10,.10,glass,'Attic window',{stroke:roofEdge,strokeWidth:.012}),
+      child('rect',0,-.22,.012,.10,roofEdge,'Attic mullion',{strokeWidth:0}),
+      child('polygon',0,.105,.29,.15,roofEdge,'Porch roof',{points:[[-.5,.5],[0,-.5],[.5,.5]],strokeWidth:0}),
+      child('rect',0,.22,.16,.28,wood,'Front door',{stroke:'#4b2c1b',strokeWidth:.012}),
+      child('rect',0,.16,.11,.075,'#98613a','Door upper panel',{stroke:'#5b351f',strokeWidth:.006}),
+      child('rect',0,.28,.11,.075,'#98613a','Door lower panel',{stroke:'#5b351f',strokeWidth:.006}),
+      child('ellipse',.055,.22,.012,.012,'#f4c54b','Door handle',{strokeWidth:0}),
+      child('rect',-.14,.22,.025,.28,trim,'Left porch pillar',{stroke:'#d6bf9b',strokeWidth:.004}),
+      child('rect',.14,.22,.025,.28,trim,'Right porch pillar',{stroke:'#d6bf9b',strokeWidth:.004}),
+      child('rect',0,.075,.31,.035,trim,'Porch header',{stroke:'#d6bf9b',strokeWidth:.004}),
+      child('rect',0,.39,.27,.025,'#d8c09b','Top step',{stroke:'#b79d78',strokeWidth:.004}),
+      child('rect',0,.425,.33,.025,'#c8ad82','Bottom step',{stroke:'#a68b68',strokeWidth:.004}),
+      child('ellipse',-.32,.31,.13,.09,'#3b9340','Left bush',{strokeWidth:0}),
+      child('ellipse',.34,.31,.13,.09,'#327f39','Right bush',{strokeWidth:0}),
+      child('rect',-.58,.38,.015,.18,trim,'Left fence post',{strokeWidth:0}),
+      child('rect',.58,.38,.015,.18,trim,'Right fence post',{strokeWidth:0}),
+      child('rect',-.58,.40,1.16,.018,trim,'Fence rail',{strokeWidth:0})
     ];
   } else if(name==='tree'){
     w=170;h=250;title='Tree';children=[child('ellipse',0,.44,.78,.12,'#b8c3b0','Tree shadow',{strokeWidth:0,opacity:.5}),child('rect',0,.28,.16,.48,'#70401f','Tree trunk',{stroke:'#4f2a17',strokeWidth:.008}),child('ellipse',0,-.10,.72,.55,'#2e8c38','Canopy back',{strokeWidth:0}),child('ellipse',-.25,.02,.48,.42,'#46a943','Canopy left',{strokeWidth:0}),child('ellipse',.25,.02,.48,.42,'#3a9a3c','Canopy right',{strokeWidth:0}),child('ellipse',-.12,-.20,.22,.14,'#7bc447','Canopy highlight',{strokeWidth:0})];
@@ -421,6 +432,268 @@ function emitObjectCode(o){let s=`// ${o.name}\n    glPushMatrix();\n    glTrans
 function generate2DCode(full=true){const list=full?objects.filter(o=>o.visible!==false):(selected()?[selected()]:[]);if(!full){return list.length?list.map(emitObjectCode).join('\n'):'// No object selected.\n// Select an object on the canvas to inspect its OpenGL code.';}const drawing=list.map(emitObjectCode).join('\n');return `/*\n  OpenGL Visual Designer Pro\n  Generated for Safayet Ullah\n  Computer Science & Engineering · Southeast University\n*/\n#include <Windows.h>\n#include <GL/glut.h>\n#include <cmath>\n\nvoid drawEllipse(float rx,float ry){ glBegin(GL_TRIANGLE_FAN); glVertex2f(0,0); for(int i=0;i<=100;i++){float a=2.0f*3.1415926f*i/100.0f; glVertex2f(std::cos(a)*rx,std::sin(a)*ry);} glEnd(); }\nvoid drawRoundedRect(float w,float h,float r){ const int n=12; glBegin(GL_POLYGON); for(int k=0;k<4;k++){float cx=(k==0||k==3?-w/2+r:w/2-r),cy=(k<2?-h/2+r:h/2-r); for(int i=0;i<=n;i++){float a=(k*3.1415926f/2.0f)+(i*3.1415926f/2.0f/n); glVertex2f(cx+std::cos(a)*r,cy+std::sin(a)*r);}} glEnd(); }\nvoid drawRegularPolygon(int sides,float rx,float ry){ glBegin(GL_POLYGON); for(int i=0;i<sides;i++){float a=-3.1415926f/2.0f+2.0f*3.1415926f*i/sides; glVertex2f(std::cos(a)*rx,std::sin(a)*ry);} glEnd(); }\nvoid drawStar(float rx,float ry){ glBegin(GL_POLYGON); for(int i=0;i<10;i++){float a=-3.1415926f/2.0f+3.1415926f*i/5.0f; float r=(i%2)?0.42f:0.5f; glVertex2f(std::cos(a)*rx*r,std::sin(a)*ry*r);} glEnd(); }\nvoid drawHeart(float w,float h){ glBegin(GL_POLYGON); for(int i=0;i<=80;i++){float t=6.2831853f*i/80.0f,x=16*std::pow(std::sin(t),3),y=-(13*std::cos(t)-5*std::cos(2*t)-2*std::cos(3*t)-std::cos(4*t)); glVertex2f(x*w/34.0f,y*h/34.0f);} glEnd(); }\nvoid drawArrow(float w,float h){ glBegin(GL_POLYGON); glVertex2f(-w/2,-h*.18f); glVertex2f(w*.10f,-h*.18f); glVertex2f(w*.10f,-h*.45f); glVertex2f(w/2,0); glVertex2f(w*.10f,h*.45f); glVertex2f(w*.10f,h*.18f); glVertex2f(-w/2,h*.18f); glEnd(); }\nvoid drawText(const char* text){ for(const char* c=text;*c;++c)glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,*c); }\nvoid display(){ glClear(GL_COLOR_BUFFER_BIT); glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);\n${drawing}\n glFlush(); }\nvoid init(){ glClearColor(${hexToRgb01(canvasBg)[0].toFixed(3)}f,${hexToRgb01(canvasBg)[1].toFixed(3)}f,${hexToRgb01(canvasBg)[2].toFixed(3)}f,1); glMatrixMode(GL_PROJECTION); glLoadIdentity(); gluOrtho2D(0,900,0,600); }\nint main(int argc,char** argv){ glutInit(&argc,argv); glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA); glutInitWindowSize(900,600); glutCreateWindow("Safayet Ullah - OpenGL Design"); init(); glutDisplayFunc(display); glutMainLoop(); return 0; }`+'';}
 function updateLiveCode(){ $('liveCode').value=mode==='2d'?generate2DCode(false):generate3DCode(false); }
 
+// Readable, sectioned C++ output. This final generator intentionally replaces
+// the compact legacy emitter above so both previews and downloads are easy to
+// inspect and edit.
+const READABLE_CPP_HELPERS = `// ---------- Shape helpers ----------
+void drawEllipse(float rx, float ry)
+{
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(0.0f, 0.0f);
+    for (int i = 0; i <= 96; ++i)
+    {
+        const float a = 2.0f * 3.1415926f * i / 96.0f;
+        glVertex2f(std::cos(a) * rx, std::sin(a) * ry);
+    }
+    glEnd();
+}
+
+void drawRoundedRect(float w, float h, float r)
+{
+    const int segments = 14;
+    glBegin(GL_POLYGON);
+    for (int corner = 0; corner < 4; ++corner)
+    {
+        const float cx = (corner == 0 || corner == 3) ? -w / 2.0f + r : w / 2.0f - r;
+        const float cy = (corner < 2) ? -h / 2.0f + r : h / 2.0f - r;
+        for (int i = 0; i <= segments; ++i)
+        {
+            const float a = corner * 3.1415926f / 2.0f + i * 3.1415926f / (2.0f * segments);
+            glVertex2f(cx + std::cos(a) * r, cy + std::sin(a) * r);
+        }
+    }
+    glEnd();
+}
+
+void drawRegularPolygon(int sides, float rx, float ry)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < sides; ++i)
+    {
+        const float a = -3.1415926f / 2.0f + 2.0f * 3.1415926f * i / sides;
+        glVertex2f(std::cos(a) * rx, std::sin(a) * ry);
+    }
+    glEnd();
+}
+
+void drawStar(float rx, float ry, float inner = 0.42f, int points = 5)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < points * 2; ++i)
+    {
+        const float a = -3.1415926f / 2.0f + 3.1415926f * i / points;
+        const float r = (i % 2 == 0) ? 1.0f : inner;
+        glVertex2f(std::cos(a) * rx * r, std::sin(a) * ry * r);
+    }
+    glEnd();
+}
+
+void drawHeart(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i <= 96; ++i)
+    {
+        const float t = 6.2831853f * i / 96.0f;
+        const float x = 16.0f * std::pow(std::sin(t), 3.0f);
+        const float y = -(13.0f * std::cos(t) - 5.0f * std::cos(2.0f * t)
+                         - 2.0f * std::cos(3.0f * t) - std::cos(4.0f * t));
+        glVertex2f(x * w / 34.0f, y * h / 34.0f);
+    }
+    glEnd();
+}
+
+void drawCloud(float w, float h)
+{
+    drawEllipse(w * 0.22f, h * 0.28f);
+    glPushMatrix();
+    glTranslatef(-w * 0.22f, h * 0.04f, 0.0f);
+    drawEllipse(w * 0.20f, h * 0.22f);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(w * 0.22f, h * 0.04f, 0.0f);
+    drawEllipse(w * 0.20f, h * 0.22f);
+    glPopMatrix();
+}
+
+void drawCylinder(float w, float h)
+{
+    glBegin(GL_QUADS);
+    glVertex2f(-w / 2.0f, -h * 0.30f); glVertex2f(w / 2.0f, -h * 0.30f);
+    glVertex2f(w / 2.0f, h * 0.30f); glVertex2f(-w / 2.0f, h * 0.30f);
+    glEnd();
+    glBegin(GL_LINE_LOOP);
+    for (int i = 0; i < 48; ++i)
+    {
+        const float a = 6.2831853f * i / 48.0f;
+        glVertex2f(std::cos(a) * w / 2.0f, -h * 0.30f + std::sin(a) * h * 0.12f);
+    }
+    glEnd();
+}
+
+void drawCube(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    glVertex2f(-w * 0.42f, -h * 0.25f); glVertex2f(0.0f, -h * 0.50f);
+    glVertex2f(w * 0.42f, -h * 0.25f); glVertex2f(w * 0.42f, h * 0.28f);
+    glVertex2f(0.0f, h * 0.50f); glVertex2f(-w * 0.42f, h * 0.28f);
+    glEnd();
+}
+
+void drawArrow(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    glVertex2f(-w / 2.0f, -h * 0.16f); glVertex2f(w * 0.08f, -h * 0.16f);
+    glVertex2f(w * 0.08f, -h * 0.44f); glVertex2f(w / 2.0f, 0.0f);
+    glVertex2f(w * 0.08f, h * 0.44f); glVertex2f(w * 0.08f, h * 0.16f);
+    glVertex2f(-w / 2.0f, h * 0.16f);
+    glEnd();
+}
+
+void drawCallout(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    glVertex2f(-w / 2.0f, -h / 2.0f); glVertex2f(w / 2.0f, -h / 2.0f);
+    glVertex2f(w / 2.0f, h * 0.22f); glVertex2f(w * 0.10f, h * 0.22f);
+    glVertex2f(-w * 0.18f, h / 2.0f); glVertex2f(-w * 0.12f, h * 0.22f);
+    glVertex2f(-w / 2.0f, h * 0.22f);
+    glEnd();
+}
+
+void drawSpeechBubble(float w, float h)
+{
+    drawRoundedRect(w, h * 0.72f, h * 0.10f);
+    glBegin(GL_TRIANGLES);
+    glVertex2f(-w * 0.10f, h * 0.20f); glVertex2f(-w * 0.25f, h * 0.50f); glVertex2f(w * 0.08f, h * 0.20f);
+    glEnd();
+}
+
+void drawLightning(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    glVertex2f(-w * 0.08f, -h / 2.0f); glVertex2f(w * 0.28f, -h * 0.08f);
+    glVertex2f(w * 0.08f, -h * 0.08f); glVertex2f(w * 0.25f, h / 2.0f);
+    glVertex2f(-w * 0.28f, h * 0.08f); glVertex2f(-w * 0.06f, h * 0.08f);
+    glEnd();
+}
+
+void drawNoSymbol(float w, float h)
+{
+    drawEllipse(w / 2.0f, h / 2.0f);
+    glBegin(GL_LINES); glVertex2f(-w * 0.34f, -h * 0.34f); glVertex2f(w * 0.34f, h * 0.34f); glEnd();
+}
+
+void drawSun(float w, float h)
+{
+    drawEllipse(w * 0.36f, h * 0.36f);
+    glBegin(GL_LINES);
+    for (int i = 0; i < 16; ++i)
+    {
+        const float a = 6.2831853f * i / 16.0f;
+        glVertex2f(std::cos(a) * w * 0.40f, std::sin(a) * h * 0.40f);
+        glVertex2f(std::cos(a) * w * 0.50f, std::sin(a) * h * 0.50f);
+    }
+    glEnd();
+}
+
+void drawMoon(float w, float h)
+{
+    glBegin(GL_POLYGON);
+    for (int i = 0; i <= 48; ++i)
+    {
+        const float a = -1.05f + 2.10f * i / 48.0f;
+        glVertex2f(std::cos(a) * w * 0.48f, std::sin(a) * h * 0.48f);
+    }
+    for (int i = 48; i >= 0; --i)
+    {
+        const float a = -1.05f + 2.10f * i / 48.0f;
+        glVertex2f(w * 0.16f + std::cos(a) * w * 0.40f, std::sin(a) * h * 0.40f);
+    }
+    glEnd();
+}
+
+void drawArc(float w, float h)
+{
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i <= 48; ++i)
+    {
+        const float a = 3.4558f + 0.8727f * i / 48.0f;
+        glVertex2f(std::cos(a) * w * 0.48f, std::sin(a) * h * 0.48f);
+    }
+    glEnd();
+}
+
+void drawPie(float w, float h)
+{
+    glBegin(GL_TRIANGLE_FAN); glVertex2f(0.0f, 0.0f);
+    for (int i = 0; i <= 48; ++i)
+    {
+        const float a = -0.94f + 2.98f * i / 48.0f;
+        glVertex2f(std::cos(a) * w * 0.48f, std::sin(a) * h * 0.48f);
+    }
+    glEnd();
+}
+
+void drawText(const char* text)
+{
+    for (const char* c = text; *c != '\\0'; ++c) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+}
+`;
+
+function readableCppNumber(value){return `${Number(value||0).toFixed(1)}f`;}
+function readableCppColor(hex){const c=hexToRgb01(hex&&hex!=='transparent'?hex:'#000000');return c.map(v=>v.toFixed(3)+'f');}
+function readableCppText(value){return String(value||'Text').replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r?\n/g,' ');}
+function readableVertices(type,w,h,points){
+  const p=(...v)=>v;
+  if(type==='rect'||type==='rectangle')return [p(-w/2,-h/2),p(w/2,-h/2),p(w/2,h/2),p(-w/2,h/2)];
+  if(type==='righttriangle')return [p(-w/2,-h/2),p(w/2,h/2),p(-w/2,h/2)];
+  if(type==='triangle')return [p(0,-h/2),p(-w/2,h/2),p(w/2,h/2)];
+  if(type==='diamond')return [p(0,-h/2),p(w/2,0),p(0,h/2),p(-w/2,0)];
+  if(type==='parallelogram')return [p(-w*.38,-h/2),p(w/2,-h/2),p(w*.38,h/2),p(-w/2,h/2)];
+  if(type==='trapezoid')return [p(-w*.38,-h/2),p(w*.38,-h/2),p(w/2,h/2),p(-w/2,h/2)];
+  if(['cross','plus'].includes(type))return [[-w*.18,-h/2],[w*.18,-h/2],[w*.18,-h*.18],[w/2,-h*.18],[w/2,h*.18],[w*.18,h*.18],[w*.18,h/2],[-w*.18,h/2],[-w*.18,h*.18],[-w/2,h*.18],[-w/2,-h*.18],[-w*.18,-h*.18]];
+  if(type==='minus')return [p(-w/2,-h*.13),p(w/2,-h*.13),p(w/2,h*.13),p(-w/2,h*.13)];
+  if(type==='arrow'||type==='rightarrow')return [p(-w/2,-h*.16),p(w*.08,-h*.16),p(w*.08,-h*.44),p(w/2,0),p(w*.08,h*.44),p(w*.08,h*.16),p(-w/2,h*.16)];
+  if(type==='leftarrow')return readableVertices('rightarrow',-w,h);
+  if(type==='uparrow')return readableVertices('rightarrow',h,w).map(([x,y])=>p(-y,x));
+  if(type==='downarrow')return readableVertices('rightarrow',h,w).map(([x,y])=>p(y,-x));
+  if(type==='chevron')return [p(-w/2,-h/2),p(-w*.12,-h/2),p(w/2,0),p(-w*.12,h/2),p(-w/2,h/2),p(w*.08,0)];
+  if(type==='lightning')return [p(-w*.08,-h/2),p(w*.28,-h*.08),p(w*.08,-h*.08),p(w*.25,h/2),p(-w*.28,h*.08),p(-w*.06,h*.08)];
+  if(type==='polygon')return (points||[]).map(q=>p((Array.isArray(q)?q[0]:q.x)*w,(Array.isArray(q)?q[1]:q.y)*h));
+  return null;
+}
+function readableEmitGeometry(type,w,h,fill,stroke,strokeWidth,points,text,indent='    '){
+  const color=readableCppColor(fill),border=readableCppColor(stroke||'#26354d');let s=`${indent}// Shape: ${type}\n${indent}glColor4f(${color[0]}, ${color[1]}, ${color[2]}, 1.0f);\n`;
+  const verts=readableVertices(type,w,h,points);
+  if(verts&&verts.length){s+=`${indent}glBegin(GL_POLYGON);\n`;verts.forEach(v=>s+=`${indent}    glVertex2f(${readableCppNumber(v[0])}, ${readableCppNumber(v[1])});\n`);s+=`${indent}glEnd();\n`;}
+  else if(type==='roundrect')s+=`${indent}drawRoundedRect(${readableCppNumber(w)}, ${readableCppNumber(h)}, ${readableCppNumber(Math.min(w,h)*.14)});\n`;
+  else if(type==='ellipse')s+=`${indent}drawEllipse(${readableCppNumber(w/2)}, ${readableCppNumber(h/2)});\n`;
+  else if(type==='pentagon'||type==='hexagon'||type==='octagon')s+=`${indent}drawRegularPolygon(${type==='pentagon'?5:type==='hexagon'?6:8}, ${readableCppNumber(w/2)}, ${readableCppNumber(h/2)});\n`;
+  else if(type==='star')s+=`${indent}drawStar(${readableCppNumber(w/2)}, ${readableCppNumber(h/2)});\n`;
+  else if(type==='burst')s+=`${indent}drawStar(${readableCppNumber(w/2)}, ${readableCppNumber(h/2)}, 0.32f, 10);\n`;
+  else if(type==='heart')s+=`${indent}drawHeart(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='cloud')s+=`${indent}drawCloud(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='cylinder')s+=`${indent}drawCylinder(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='cube')s+=`${indent}drawCube(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='callout')s+=`${indent}drawCallout(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='speech')s+=`${indent}drawSpeechBubble(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='smiley'){s+=`${indent}drawEllipse(${readableCppNumber(w/2)}, ${readableCppNumber(h/2)});\n${indent}// Face details\n`;}
+  else if(type==='lightning')s+=`${indent}drawLightning(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='nosymbol')s+=`${indent}drawNoSymbol(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='sun')s+=`${indent}drawSun(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='moon')s+=`${indent}drawMoon(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='arc')s+=`${indent}drawArc(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='pie')s+=`${indent}drawPie(${readableCppNumber(w)}, ${readableCppNumber(h)});\n`;
+  else if(type==='line'||type==='pen'){s+=`${indent}glColor3f(${border[0]}, ${border[1]}, ${border[2]});\n${indent}glLineWidth(${readableCppNumber(Math.max(1,strokeWidth||2))});\n${indent}glBegin(${type==='line'?'GL_LINES':'GL_LINE_STRIP'});\n`;(points||[]).forEach(q=>{const x=Array.isArray(q)?q[0]*w:q.x*w,y=Array.isArray(q)?q[1]*h:q.y*h;s+=`${indent}    glVertex2f(${readableCppNumber(x)}, ${readableCppNumber(y)});\n`;});s+=`${indent}glEnd();\n`;}
+  else if(type==='text')s+=`${indent}glRasterPos2f(${readableCppNumber(-w/2)}, 0.0f);\n${indent}drawText("${readableCppText(text)}");\n`;
+  if(strokeWidth>0&&!['line','pen','arc'].includes(type))s+=`${indent}// Outline\n${indent}glColor3f(${border[0]}, ${border[1]}, ${border[2]});\n${indent}glLineWidth(${readableCppNumber(Math.max(1,strokeWidth))});\n`;
+  return s;
+}
+function readableEmitChild(c,o){const cw=(c.w||.1)*o.w,ch=(c.h||.1)*o.h;let s=`    // Part: ${String(c.name||'Group part').replace(/\r?\n/g,' ')}\n    glPushMatrix();\n    glTranslatef(${readableCppNumber((c.x||0)*o.w)}, ${readableCppNumber(-(c.y||0)*o.h)}, 0.0f);\n`;if(c.rotation)s+=`    glRotatef(${readableCppNumber(-(c.rotation||0))}, 0.0f, 0.0f, 1.0f);\n`;s+=readableEmitGeometry(c.type,cw,ch,c.fill||o.fill,c.stroke||o.stroke,(c.strokeWidth||0)*Math.max(o.w,o.h),c.points,c.text);return s+'    glPopMatrix();\n';}
+function readableEmitObject(o){let s=`    // Object: ${String(o.name||o.type).replace(/\r?\n/g,' ')}\n    glPushMatrix();\n    glTranslatef(${readableCppNumber(o.x)}, ${readableCppNumber(H-o.y)}, 0.0f);\n    glRotatef(${readableCppNumber(-o.rotation)}, 0.0f, 0.0f, 1.0f);\n`;if(o.type==='group')(o.children||[]).forEach(c=>s+=readableEmitChild(c,o));else s+=readableEmitGeometry(o.type,o.w,o.h,o.fill,o.stroke,o.strokeWidth,o.points,o.text);return s+'    glPopMatrix();\n';}
+function buildReadable2DCode(full=true){const list=full?objects.filter(o=>o.visible!==false):(selected()?[selected()]:[]);if(!full){if(!list.length)return '// No object selected.\n// Select an object or a layer to inspect its OpenGL code.\n';return `// Selected object: ${list[0].name}\n// This is the editable OpenGL/GLUT fragment for the current selection.\n\n${readableEmitObject(list[0])}`;}const drawing=list.map(readableEmitObject).join('\n');return `/*\n * OpenGL Visual Designer Pro\n * Generated for Safayet Ullah\n * Computer Science & Engineering · Southeast University\n *\n * The complete editable scene is organized into helpers, scene objects,\n * initialization, rendering, and the GLUT entry point.\n */\n\n#include <Windows.h>\n#include <GL/glut.h>\n#include <cmath>\n\n${READABLE_CPP_HELPERS}\n\n// ---------- Scene ----------\nvoid drawScene()\n{\n${drawing||'    // No objects have been added yet.'}\n}\n\n// ---------- Window and rendering ----------\nvoid initOpenGL()\n{\n    glClearColor(${hexToRgb01(canvasBg)[0].toFixed(3)}f, ${hexToRgb01(canvasBg)[1].toFixed(3)}f, ${hexToRgb01(canvasBg)[2].toFixed(3)}f, 1.0f);\n    glMatrixMode(GL_PROJECTION);\n    glLoadIdentity();\n    gluOrtho2D(0.0, 900.0, 0.0, 600.0);\n    glMatrixMode(GL_MODELVIEW);\n    glLoadIdentity();\n    glEnable(GL_BLEND);\n    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);\n}\n\nvoid display()\n{\n    glClear(GL_COLOR_BUFFER_BIT);\n    glLoadIdentity();\n    drawScene();\n    glFlush();\n}\n\nvoid reshape(int width, int height)\n{\n    glViewport(0, 0, width, height);\n    glMatrixMode(GL_PROJECTION);\n    glLoadIdentity();\n    gluOrtho2D(0.0, 900.0, 0.0, 600.0);\n    glMatrixMode(GL_MODELVIEW);\n}\n\n// ---------- Program entry ----------\nint main(int argc, char** argv)\n{\n    glutInit(&argc, argv);\n    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);\n    glutInitWindowSize(900, 600);\n    glutCreateWindow("Safayet Ullah - OpenGL Visual Design");\n    initOpenGL();\n    glutDisplayFunc(display);\n    glutReshapeFunc(reshape);\n    glutMainLoop();\n    return 0;\n}\n`;}
+generate2DCode=buildReadable2DCode;
+function updateLiveCode(){ $('liveCode').value=mode==='2d'?generate2DCode(false):generate3DCode(false); }
+
 // ---------- 3D ----------
 const gl=$('canvas3d').getContext('webgl',{antialias:true});let glProg,loc={},meshes={};
 function shader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
@@ -463,7 +736,7 @@ document.querySelectorAll('.tool-btn').forEach(b=>b.onclick=()=>{
 document.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>template(b.dataset.template));document.querySelectorAll('[data-primitive]').forEach(b=>b.onclick=()=>showToast('3D Studio is coming soon.'));
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{if(t.dataset.mode==='3d'){showToast('3D Studio is coming soon.');return;}mode='2d';refreshAll();});
 $('librarySearch').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll('#tools2d .tool-btn,#tools2d .object-btn').forEach(b=>{b.hidden=!!q&&!b.textContent.toLowerCase().includes(q);});});
-$('rightPanelToggle').onclick=()=>{inspectorOpen=!inspectorOpen;localStorage.setItem('oglInspectorOpen',inspectorOpen?'1':'0');applyInspectorState();};
+$('rightPanelToggle').onclick=()=>{inspectorOpen=!inspectorOpen;localStorage.setItem('oglInspectorOpenV2',inspectorOpen?'1':'0');applyInspectorState();};
 $('finishPolygonBtn').onclick=e=>{e.preventDefault();e.stopPropagation();finishPolygon();};$('undoBtn').onclick=undo;$('redoBtn').onclick=redo;$('deleteBtn').onclick=removeSelected;$('duplicateBtn').onclick=duplicate;$('ungroupBtn').onclick=ungroup;
 $('frontBtn').onclick=()=>{const o=selected();if(!o)return;pushHistory();objects=objects.filter(x=>x!==o);objects.push(o);changed();};$('backBtn').onclick=()=>{const o=selected();if(!o)return;pushHistory();objects=objects.filter(x=>x!==o);objects.unshift(o);changed();};
 $('layerUp').onclick=()=>{const list=mode==='2d'?objects:scene3d,id=mode==='2d'?selectedId:selected3d,i=list.findIndex(o=>o.id===id);if(i<0||i===list.length-1)return;pushHistory();[list[i],list[i+1]]=[list[i+1],list[i]];changed();};$('layerDown').onclick=()=>{const list=mode==='2d'?objects:scene3d,id=mode==='2d'?selectedId:selected3d,i=list.findIndex(o=>o.id===id);if(i<=0)return;pushHistory();[list[i],list[i-1]]=[list[i-1],list[i]];changed();};
