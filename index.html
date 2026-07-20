@@ -1068,7 +1068,237 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 `;
 }
-generate2DCode=buildModern2DCode;
+// Direct classroom-style exporter. Unlike the general scene exporter above,
+// this output intentionally uses ordinary C++ arrays and one VAO/VBO/EBO,
+// matching the structure used in the supplied course examples.
+function teacherPrepareDraws(items){let vertexBase=0,indexOffset=0;return items.map(item=>{const draw={...item,vertexBase,indexOffset,indexCount:item.indices.length,globalIndices:item.indices.map(index=>index+vertexBase)};vertexBase+=item.points.length;indexOffset+=item.indices.length;return draw;});}
+function teacherVertexArrayCode(draws,indent='        '){if(!draws.length)return `${indent}0.0f, 0.0f, 0.0f`;const lines=[];draws.forEach(draw=>{lines.push(`${indent}// ${draw.label}`);draw.points.forEach(point=>lines.push(`${indent}${modernCppNumber(point[0])}, ${modernCppNumber(point[1])}, 0.0f,`));});return lines.join('\n');}
+function teacherIndexArrayCode(draws,indent='        '){if(!draws.length)return `${indent}0u`;const lines=[];draws.forEach(draw=>{lines.push(`${indent}// ${draw.label}`);for(let i=0;i<draw.globalIndices.length;i+=12)lines.push(`${indent}${draw.globalIndices.slice(i,i+12).map(index=>index+'u').join(', ')},`);});return lines.join('\n');}
+function teacherModelFactors(model){const factors=[],pattern=/makeModelMatrix\(([^)]*)\)/g;let match;while((match=pattern.exec(model||'')))factors.push(match[1].split(',').map(value=>value.trim()));return factors;}
+function teacherDrawCode(draw,indent='        '){const lines=[`${indent}// ${draw.label}`],factors=teacherModelFactors(draw.model);if(!factors.length)lines.push(`${indent}modelMatrix = identityMatrix;`);factors.forEach((factor,index)=>{const [x,y,angle,sx,sy]=factor;lines.push(`${indent}translationMatrix = glm::translate(`,`${indent}    identityMatrix, glm::vec3(${x}, ${y}, 0.0f));`,`${indent}rotationMatrix = glm::rotate(`,`${indent}    identityMatrix, glm::radians(${angle}),`,`${indent}    glm::vec3(0.0f, 0.0f, 1.0f));`,`${indent}scaleMatrix = glm::scale(`,`${indent}    identityMatrix, glm::vec3(${sx}, ${sy}, 1.0f));`);if(index===0)lines.push(`${indent}modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;`);else lines.push(`${indent}modelMatrix = modelMatrix * translationMatrix * rotationMatrix * scaleMatrix;`);});const color=hexToRgb01(draw.color&&draw.color!=='transparent'?draw.color:'#000000'),pointer=draw.indexOffset===0?'0':`(void*)(${draw.indexOffset} * sizeof(unsigned int))`;lines.push(`${indent}transform = projectionMatrix * modelMatrix;`,`${indent}glUniformMatrix4fv(transformLoc, 1, GL_FALSE,`,`${indent}                   glm::value_ptr(transform));`,`${indent}glUniform4f(colorLoc,`,`${indent}            ${modernCppNumber(color[0],3)}, ${modernCppNumber(color[1],3)}, ${modernCppNumber(color[2],3)},`,`${indent}            ${modernCppNumber(clamp(draw.opacity,0,1),3)});`,`${indent}glLineWidth(${modernCppNumber(draw.lineWidth,2)});`,`${indent}glDrawElements(${draw.mode}, ${draw.indexCount},`,`${indent}               GL_UNSIGNED_INT, ${pointer});`);return lines.join('\n');}
+function teacherSelectedCode(object){const items=modernFlatten2D(object?[object]:[]),draws=teacherPrepareDraws(items);if(!object)return '// No object selected.\n// Select an object or a layer to inspect its OpenGL code.\n';return `// Selected object: ${modernCppComment(object.name)}
+// Vertex and index data for this object only.
+
+float vertices[] = {
+${teacherVertexArrayCode(draws,'    ')}
+};
+
+unsigned int indices[] = {
+${teacherIndexArrayCode(draws,'    ')}
+};
+
+// Place these draw commands inside the render loop after binding the VAO.
+${draws.length?draws.map(draw=>teacherDrawCode(draw,'    ')).join('\n\n'):'// No visible geometry in this object.'}
+`;}
+function buildTeacher2DCode(full=true){
+  if(!full)return teacherSelectedCode(selected());
+  const items=modernFlatten2D(objects.filter(object=>object.visible!==false)),draws=teacherPrepareDraws(items),bg=hexToRgb01(canvasBg),drawCode=draws.length?draws.map(draw=>teacherDrawCode(draw)).join('\n\n'):'        // No visible objects have been added yet.';
+  return `/*
+ * OpenGL Visual Designer Pro
+ * Generated for Safayet Ullah
+ * Computer Science & Engineering - Southeast University
+ * Target: OpenGL 3.3 Core, GLAD, GLFW and GLM
+ */
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <iostream>
+
+using namespace std;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
+
+const unsigned int SCR_WIDTH = 900;
+const unsigned int SCR_HEIGHT = 600;
+
+// Vertex Shader
+const char* vertexShaderSource = "#version 330 core\\n"
+"layout (location = 0) in vec3 aPos;\\n"
+"uniform mat4 transform;\\n"
+"void main()\\n"
+"{\\n"
+"   gl_Position = transform * vec4(aPos, 1.0);\\n"
+"}\\0";
+
+// Fragment Shader
+const char* fragmentShaderSource = "#version 330 core\\n"
+"out vec4 FragColor;\\n"
+"uniform vec4 objectColor;\\n"
+"void main()\\n"
+"{\\n"
+"   FragColor = objectColor;\\n"
+"}\\n\\0";
+
+int main()
+{
+    // Initialize GLFW
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+    // Create window
+    GLFWwindow* window = glfwCreateWindow(
+        SCR_WIDTH, SCR_HEIGHT,
+        "Safayet Ullah - OpenGL Visual Design",
+        NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    // Load OpenGL function pointers
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
+    // Build and compile shader program
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::VERTEX::COMPILATION_FAILED\\n"
+                  << infoLog << std::endl;
+    }
+
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::FRAGMENT::COMPILATION_FAILED\\n"
+                  << infoLog << std::endl;
+    }
+
+    unsigned int shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::PROGRAM::LINKING_FAILED\\n"
+                  << infoLog << std::endl;
+    }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    // Vertex data generated from the visual canvas
+    float vertices[] = {
+${teacherVertexArrayCode(draws)}
+    };
+
+    unsigned int indices[] = {
+${teacherIndexArrayCode(draws)}
+    };
+
+    unsigned int VBO, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER,
+                 sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                 sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+                          3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    unsigned int transformLoc = glGetUniformLocation(
+        shaderProgram, "transform");
+    unsigned int colorLoc = glGetUniformLocation(
+        shaderProgram, "objectColor");
+
+    glm::mat4 projectionMatrix = glm::ortho(
+        0.0f, static_cast<float>(SCR_WIDTH),
+        static_cast<float>(SCR_HEIGHT), 0.0f,
+        -1.0f, 1.0f);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Render loop
+    while (!glfwWindowShouldClose(window))
+    {
+        processInput(window);
+
+        glClearColor(${modernCppNumber(bg[0],3)}, ${modernCppNumber(bg[1],3)}, ${modernCppNumber(bg[2],3)}, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glm::mat4 identityMatrix = glm::mat4(1.0f);
+        glm::mat4 translationMatrix;
+        glm::mat4 rotationMatrix;
+        glm::mat4 scaleMatrix;
+        glm::mat4 modelMatrix;
+        glm::mat4 transform;
+
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+
+${drawCode}
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    // Cleanup
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteProgram(shaderProgram);
+
+    glfwTerminate();
+    return 0;
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+`;
+}
+generate2DCode=buildTeacher2DCode;
 function updateLiveCode(){ $('liveCode').value=mode==='2d'?generate2DCode(false):generate3DCode(false); }
 
 // ---------- 3D ----------
